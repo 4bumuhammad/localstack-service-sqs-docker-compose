@@ -25,6 +25,7 @@
 
 &nbsp;
 
+### &#x1F530; Run Commands in a Docker Container
 <pre>
     ❯ docker exec -it localstack_sqs /bin/sh
 </pre>
