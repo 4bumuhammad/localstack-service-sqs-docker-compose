@@ -12,5 +12,5 @@ services:
       - "127.0.0.1:4566:4566"
       - "127.0.0.1:4571:4571"
     volumes:
-      - ./localstack:/docker-entrypoint-initaws.d
+      - ./localstack_entrypoint:/docker-entrypoint-initaws.d
       - ./localstack_home:/home/localstack
