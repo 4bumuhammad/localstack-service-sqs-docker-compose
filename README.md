@@ -41,18 +41,18 @@
 <pre>
     ❯ docker-compose up
 
-        [+] Running 1/1
-        ⠿ Container localstack_sqs  Recreated                                                                                                                                       0.1s
+        [+] Running 1/0
+        ⠿ Container localstack_sqs  Created                                                                                                                                         0.0s
         Attaching to localstack_sqs
         localstack_sqs  | Waiting for all LocalStack services to be ready
-        localstack_sqs  | 2024-03-27 10:51:20,872 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
-        localstack_sqs  | 2024-03-27 10:51:20,882 INFO supervisord started with pid 29
-        localstack_sqs  | 2024-03-27 10:51:21,900 INFO spawned: 'dashboard' with pid 47
-        localstack_sqs  | 2024-03-27 10:51:21,910 INFO spawned: 'infra' with pid 49
-        localstack_sqs  | 2024-03-27 10:51:21,976 INFO success: dashboard entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
-        localstack_sqs  | 2024-03-27 10:51:21,976 INFO exited: dashboard (exit status 0; expected)
+        localstack_sqs  | 2024-03-27 10:58:19,913 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+        localstack_sqs  | 2024-03-27 10:58:19,923 INFO supervisord started with pid 31
+        localstack_sqs  | 2024-03-27 10:58:20,943 INFO spawned: 'dashboard' with pid 49
+        localstack_sqs  | 2024-03-27 10:58:20,954 INFO spawned: 'infra' with pid 51
+        localstack_sqs  | 2024-03-27 10:58:21,022 INFO success: dashboard entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+        localstack_sqs  | 2024-03-27 10:58:21,023 INFO exited: dashboard (exit status 0; expected)
         localstack_sqs  | (. .venv/bin/activate; exec bin/localstack start --host)
-        localstack_sqs  | 2024-03-27 10:51:22,981 INFO success: infra entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+        localstack_sqs  | 2024-03-27 10:58:22,028 INFO success: infra entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
         localstack_sqs  | Starting local dev environment. CTRL-C to quit.
         localstack_sqs  | Waiting for all LocalStack services to be ready
         localstack_sqs  | Waiting for all LocalStack services to be ready
@@ -62,24 +62,21 @@
         localstack_sqs  | LocalStack build date: 2021-07-02
         localstack_sqs  | LocalStack build git hash: 8c006f12
         localstack_sqs  | 
-        localstack_sqs  | 2024-03-27T10:51:42:INFO:localstack.utils.analytics.profiler: Execution of "load_plugin_from_path" took 715.65ms
-        localstack_sqs  | 2024-03-27T10:51:42:INFO:localstack.utils.analytics.profiler: Execution of "load_plugins" took 716.95ms
+        localstack_sqs  | 2024-03-27T10:58:41:INFO:localstack.utils.analytics.profiler: Execution of "load_plugin_from_path" took 741.58ms
+        localstack_sqs  | 2024-03-27T10:58:41:INFO:localstack.utils.analytics.profiler: Execution of "load_plugins" took 743.15ms
         localstack_sqs  | Starting edge router (https port 4566)...
         localstack_sqs  | Starting mock SQS service on http port 4566 ...
-        localstack_sqs  | 2024-03-27T10:51:42:INFO:localstack.multiserver: Starting multi API server process on port 38559
-        localstack_sqs  | [2024-03-27 10:51:42 +0000] [53] [INFO] Running on https://0.0.0.0:4566 (CTRL + C to quit)
-        localstack_sqs  | 2024-03-27T10:51:42:INFO:hypercorn.error: Running on https://0.0.0.0:4566 (CTRL + C to quit)
-        localstack_sqs  | [2024-03-27 10:51:42 +0000] [53] [INFO] Running on http://0.0.0.0:38559 (CTRL + C to quit)
-        localstack_sqs  | 2024-03-27T10:51:42:INFO:hypercorn.error: Running on http://0.0.0.0:38559 (CTRL + C to quit)
+        localstack_sqs  | 2024-03-27T10:58:42:INFO:localstack.multiserver: Starting multi API server process on port 55553
+        localstack_sqs  | [2024-03-27 10:58:42 +0000] [55] [INFO] Running on https://0.0.0.0:4566 (CTRL + C to quit)
+        localstack_sqs  | 2024-03-27T10:58:42:INFO:hypercorn.error: Running on https://0.0.0.0:4566 (CTRL + C to quit)
+        localstack_sqs  | [2024-03-27 10:58:42 +0000] [55] [INFO] Running on http://0.0.0.0:55553 (CTRL + C to quit)
+        localstack_sqs  | 2024-03-27T10:58:42:INFO:hypercorn.error: Running on http://0.0.0.0:55553 (CTRL + C to quit)
         localstack_sqs  | Waiting for all LocalStack services to be ready
         localstack_sqs  | Waiting for all LocalStack services to be ready
         localstack_sqs  | Waiting for all LocalStack services to be ready
         localstack_sqs  | Ready.
-        localstack_sqs  | 2024-03-27T10:52:06:INFO:localstack.utils.analytics.profiler: Execution of "start_api_services" took 23561.36ms
-        localstack_sqs  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initaws.d/localstack_entrypoint
-        localstack_sqs  | 
-        localstack_sqs  | /usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initaws.d/localstack_home
-        localstack_sqs  | 
+        localstack_sqs  | 2024-03-27T10:59:06:INFO:localstack.utils.analytics.profiler: Execution of "start_api_services" took 24444.08ms
+
 </pre>
 
 open with other terminals.<br />
