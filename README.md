@@ -1,4 +1,11 @@
+# &#x1F6A9; Localstack service SQS (Amazon Simple Queue Service) build with docker compose.
+
+&nbsp;
+
+### &#x1F530; Docker Compose.
 <pre>
+    ❯ docker-compose.yml
+
             version: "3.7"
             
             services:
@@ -16,9 +23,12 @@
                   - ./localstack:/docker-entrypoint-initaws.d
 </pre>
 
+&nbsp;
+
 <pre>
     ❯ docker exec -it localstack_sqs /bin/sh
-
+</pre>
+<pre>
         #########################################################################
         ❯ aws configure list
                 Name                    Value             Type    Location
@@ -49,7 +59,8 @@
             aws_access_key_id = xyz
             aws_secret_access_key = aaa
         #########################################################################
-
+</pre>
+<pre>
         #########################################################################
         ❯ awslocal sqs create-queue --queue-name submit_order
             {
@@ -63,7 +74,9 @@
                 ]
             }
         #########################################################################
-    
+</pre>
+
+<pre>
      ❯ docker restart localstack_sqs
 
      ❯ docker logs localstack_sqs
@@ -71,7 +84,8 @@
      ❯ docker exec -it localstack_sqs /bin/sh
 
      ❯ docker exec -it localstack_sqs /bin/sh
-
+</pre>
+<pre>
         #########################################################################
         ❯ aws configure list
                 Name                    Value             Type    Location
