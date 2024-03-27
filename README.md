@@ -13,6 +13,8 @@
 </pre>
 
 
+https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
+
 ### &#x1F530; Docker Compose.
 <pre>
     ❯ ccat docker-compose.yml
