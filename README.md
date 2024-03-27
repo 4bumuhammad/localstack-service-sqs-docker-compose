@@ -79,15 +79,20 @@
         ❯ exit
 </pre>
 
+&nbsp;
+
+### &#x1F530; Bring back to the command interpreter
+
 <pre>
      ❯ docker restart localstack_sqs
 
      ❯ docker logs localstack_sqs
-
-     ❯ docker exec -it localstack_sqs /bin/sh
-
+ 
      ❯ docker exec -it localstack_sqs /bin/sh
 </pre>
+
+### &#x1F530; Command once more in the container's interactive shell
+
 <pre>
         #########################################################################
         ❯ aws configure list
@@ -97,4 +102,6 @@
             access_key      ****************xyz shared-credentials-file    
             secret_key      ****************aaa shared-credentials-file    
                 region           ap-southeast-3      config-file    ~/.aws/config     
+
+        #########################################################################
 </pre>
