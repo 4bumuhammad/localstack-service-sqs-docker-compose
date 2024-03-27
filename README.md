@@ -132,6 +132,9 @@ open with other terminals.<br />
 </pre>
 <pre>
         #########################################################################
+
+        # Example 1 :
+
         ❯ awslocal sqs create-queue --queue-name submit_order
             {
                 "QueueUrl": "http://localhost:4566/000000000000/submit_order"
@@ -142,10 +145,62 @@ open with other terminals.<br />
                 "QueueUrls": [
                     "http://localhost:4566/000000000000/submit_order"
                 ]
+            } 
+
+
+        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
+            {
+                "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
+                "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd"
+            }        
+
+        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/submit_order
+            {
+                "Messages": [
+                    {
+                        "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd",
+                        "ReceiptHandle": "qqemtvkidrwumgkpczckyrazordjtcjlqhsgexqsrjzfzhdfeujbuqeaydzsriwlnxufeuedqudaxyhscvqwprpwrqrmjcoptvcdtkdyoexslgoofcurefprsypvjuyjsyymxxzoohvdeiwtkcfmqolzuxkymnzewvmirdjtrzixpkbnzqzzydnbx",
+                        "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
+                        "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+                    }
+                ]
             }
+
+        ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
         #########################################################################
 
         ❯ exit
+</pre>
+
+&nbsp;
+
+### &#x1F530; command used outside the container:
+
+<pre>
+❯ aws --endpoint-url=http://localhost:4566 sqs list-queues --queue-name-prefix submit
+    {
+        "QueueUrls": [
+            "http://localhost:4566/000000000000/submit_order"
+        ]
+    } 
+
+❯ aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
+    {
+        "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
+        "MessageId": "6483c5e2-71ce-1845-de5d-6dd7aa41807a"
+    }
+
+❯ aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/submit_order
+    {
+        "Messages": [
+            {
+                "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd",
+                "ReceiptHandle": "kevpbdhhkwpmaptwjvzktnbszkhluxxbrvcsvqzdruofmapwvocjybtzaorqmulumewwiaprsxgawbcqkqdlvhoctspfdqyncqwtizbzmsrfwrthrvcwxgsspgbkmletyfvufcgexukptirfussliwpmsrkjpssujkvzfzzycryxhqkfrexhgxtvo",
+                "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
+                "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+            }
+        ]
+    }
 </pre>
 
 &nbsp;
