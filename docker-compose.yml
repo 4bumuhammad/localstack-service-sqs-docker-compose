@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
+    image: localstack/localstack:0.12.14
+    container_name: localstack_sqs
+    network_mode: bridge
+    environment:
+      - SERVICES=sqs
+    ports:
+      - "127.0.0.1:4566:4566"
+      - "127.0.0.1:4571:4571"
+    volumes:
+      - ./localstack:/docker-entrypoint-initaws.d
