@@ -89,6 +89,12 @@
 
 </pre>
 
+
+check health:<br />
+<div align="center">
+    <img src="./gambar-petunjuk/ss_localstack_health.png" alt="ss_localstack_health" style="display: block; margin: 0 auto;">
+</div> 
+
 open with other terminals.<br />
 
 <pre>
