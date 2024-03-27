@@ -2,6 +2,14 @@
 
 &nbsp;
 
+**Reference :**<br />
+<pre>
+    create-queue
+    https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
+</pre>
+
+&nbsp;
+
 <pre>
     ❯ touch localstack/localstack_home/create-queue.json
 
@@ -13,7 +21,7 @@
 </pre>
 
 
-https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
+
 
 ### &#x1F530; Docker Compose.
 <pre>
