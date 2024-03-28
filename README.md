@@ -17,15 +17,25 @@
 &nbsp;
 
 
-
+Prepare several json files that will be used later in the implementation of the test sample.
 <pre>
     ❯ touch localstack/localstack_home/create-queue.json
 
     ❯ vim localstack/localstack_home/create-queue.json
         {
-        "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:80398EXAMPLE:MyDeadLetterQueue\",\"maxReceiveCount\":\"1000\"}",
-        "MessageRetentionPeriod": "259200"
+                "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:my-dead-letter-queue\",\"maxReceiveCount\":\"1000\"}",
+                "MessageRetentionPeriod": "259200"
         }
+
+    
+
+    ❯ touch localstack/localstack_home/set-queue-attributes.json
+
+    ❯ vim localstack/localstack_home/set-queue-attributes.json
+        {
+            "ReceiveMessageWaitTimeSeconds": "1",
+            "VisibilityTimeout": "20"
+        }    
 </pre>
 
 
