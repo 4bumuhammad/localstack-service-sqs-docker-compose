@@ -103,10 +103,17 @@ check health:
 open with other terminals.<br />
 
 <pre>
+    ❯ docker images --format "{{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}" | grep "localstack"
+        localstack/localstack   0.12.14 e28c959c30fd    2021-07-03 03:24:38 +0700 WIB   754MB
+
     ❯ docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}\t{{.Ports}}"
         CONTAINER ID   IMAGE                           STATUS          NAMES            PORTS
         46fa761e7514   localstack/localstack:0.12.14   Up 37 seconds   localstack_sqs   127.0.0.1:4566->4566/tcp, 5678/tcp, 127.0.0.1:4571->4571/tcp, 8080/tcp
+</pre>
 
+&nbsp;
+
+</pre>
     ❯ docker exec -it localstack_sqs /bin/sh
 </pre>
 <pre>
