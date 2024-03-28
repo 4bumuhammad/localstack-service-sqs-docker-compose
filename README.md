@@ -266,7 +266,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                     "http://localhost:4566/000000000000/test-queue"
                 ]
             }
-
+</pre>
+<pre>
         ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/test-queue --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
             {
                 "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
@@ -278,7 +279,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 "MD5OfMessageBody": "bb433e30faecdbee39f3ba4a2789a928",
                 "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d"
             }
-
+</pre>
+<pre>
         ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
             {
                 "Messages": [
@@ -296,7 +298,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                     }
                 ]
             }
-
+</pre>
+<pre>
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
         #########################################################################
 
