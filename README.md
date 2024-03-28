@@ -227,6 +227,9 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 }
 </pre>
 <pre>        
+        ❯ ls -lah /home/localstack/ | grep set-queue-attributes.json
+            -rw-r--r--    1 root     root         166 Mar 28 02:04 set-queue-attributes.json
+
         # or set-attributes with a file
         ❯ awslocal sqs create-queue --queue-name test-queue
             {
