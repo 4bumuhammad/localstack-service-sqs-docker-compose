@@ -1,8 +1,6 @@
 {
-    "DelaySeconds": "10",
-    "MaximumMessageSize": "131072",
-    "MessageRetentionPeriod": "259200",
-    "ReceiveMessageWaitTimeSeconds": "20",
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:MyDeadLetterQueue\",\"maxReceiveCount\":\"1000\"}",
-    "VisibilityTimeout": "60"
+    "ReceiveMessageWaitTimeSeconds": "1",
+    "VisibilityTimeout": "20",
+    "RedrivePolicy.deadLetterTargetArn": "$ARN",
+    "RedrivePolicy.maxReceiveCount": "1"
 }

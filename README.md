@@ -186,8 +186,6 @@ command into the container.<br />
                 ]
             }
 
-        ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/submit_order --attributes file:///home/localstack/set-queue-attributes.json
-
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
 </pre>
 
@@ -225,8 +223,17 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 {
                     "QueueUrl": "http://localhost:4566/000000000000/test-queue"
                 }
-            
+        
+        # or set-attributes with a file
+        ❯ awslocal sqs create-queue --queue-name test-queue
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/test-queue"
+            }        
 
+        ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/test-queue --attributes file:///home/localstack/set-queue-attributes.json
+
+
+        # continue command
         ❯ awslocal sqs list-queues --queue-name-prefix test
             {
                 "QueueUrls": [
@@ -252,6 +259,11 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
             }
 
         ❯ awslocal sqs list-queues
+            {
+                "QueueUrls": [
+                    "http://localhost:4566/000000000000/test-queue"
+                ]
+            }
 
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
         #########################################################################
