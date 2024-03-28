@@ -113,7 +113,7 @@ open with other terminals.<br />
 
 &nbsp;
 
-</pre>
+<pre>
     ❯ docker exec -it localstack_sqs /bin/sh
 </pre>
 <pre>
