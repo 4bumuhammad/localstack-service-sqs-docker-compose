@@ -451,8 +451,8 @@ Note : To delete all existing queues in the default profile.
 
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
-            ❯ export AWS_DEFAULT_REGION=ap-southeast-3
-            ❯ aws configure list
+           ❯ aws configure set default.region ap-southeast-3
+           ❯ aws configure list
                     Name                    Value             Type    Location
                     ----                    -----             ----    --------
                 profile                   <not set>             None    None
@@ -465,19 +465,22 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                     {
                         "QueueUrl": "http://localhost:4566/000000000000/dead-letter-queue"
                     }
-
-            ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes\
-                        --attribute-name QueueArn --queue-url=http://localhost:4566/000000000000/dead-letter-queue\
+</pre>
+<pre>
+            ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://localhost:4566/000000000000/dead-letter-queue\
                     |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
+
             ❯ echo $DLQ_SQS_ARN
                     arn:aws:sqs:us-east-1:000000000000:dead-letter-queue
-
+</pre>
+<pre>
             ❯ awslocal sqs create-queue --queue-name input-queue \
                 --attributes '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}" }'
                     {
                         "QueueUrl": "http://localhost:4566/000000000000/input-queue"
                     }
-
+</pre>
+<pre>
             ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://localhost:4566/000000000000/input-queue
                     {
                         "Attributes": {
@@ -495,13 +498,15 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                             "VisibilityTimeout": "30"
                         }
                     }            
-
+</pre>
+<pre>
             ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/input-queue --message-body '{"hello": "world"}'
                     {
                         "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
                         "MessageId": "40cb2a7c-80d9-5eac-f375-844b060807f2"
                     }
-
+</pre>
+<pre>
             ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue
                     {
                         "Messages": [
@@ -528,7 +533,11 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 
             ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue 
                 &lt;nothing&gt;
+</pre>
 
+&nbsp;
+
+<pre>
             # Check pada DLQ
             ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/dead-letter-queue --max-number-of-messages 10
                     {
@@ -553,7 +562,11 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                             }
                         ]
                     }
+</pre>
 
+&nbsp;
+
+<pre>
             ❯ awslocal sqs start-message-move-task \
                     --source-arn arn:aws:sqs:us-east-1:000000000000:dead-letter-queue \
                     --destination-arn arn:aws:sqs:us-east-1:000000000000:recovery-queue
@@ -563,16 +576,10 @@ Configure dead-letter-queue to be a DLQ for input-queue:
             aws sqs move-message --source-queue-url rn:aws:sqs:us-east-1:000000000000:dead-letter-queue --queue-url arn:aws:sqs:us-east-1:000000000000:recovery-queue --receipt-handle "vvyvgbxviazkxfaxtqgmagjchlpsljasabrxserqvwqxygzlvpcfhnfbcrwfqolhudzbrlhljxwjippcpehwimjjoruvdrkdunqkraxgdueesjdhsgpcpmuhwyllplfpjednmwhjadmkzjsvyxoawcryusnrwwkdhneejalaohpxmjxfzwacfovrg"
 
 </pre>
-<!-- <pre>
-        ❯ 
-        ❯ 
-        ❯ 
-</pre>
-<pre>
-        ❯ 
-        ❯ 
-        ❯ 
-</pre> -->
+
+&nbsp;
+
+&nbsp;
 
 &nbsp;
 
