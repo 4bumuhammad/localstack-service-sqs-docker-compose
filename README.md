@@ -340,36 +340,45 @@ Note : To delete all existing queues in the default profile.
 
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
-        # Example 2 :
+        # Example 3 :
 
-           ❯ aws configure set default.region ap-southeast-3
-           ❯ aws configure list
-                    Name                    Value             Type    Location
-                    ----                    -----             ----    --------
-                profile                   <not set>             None    None
-                access_key                <not set>             None    None
-                secret_key                <not set>             None    None
-                    region           ap-southeast-3      config-file    ~/.aws/config
+        ❯ aws configure set default.region ap-southeast-3
+        ❯ aws configure list
+                Name                    Value             Type    Location
+                ----                    -----             ----    --------
+            profile                   <not set>             None    None
+            access_key                <not set>             None    None
+            secret_key                <not set>             None    None
+                region           ap-southeast-3      config-file    ~/.aws/config
 </pre>
 <pre>
-            ❯ awslocal sqs create-queue --queue-name dead-letter-queue
+        ❯ awslocal sqs create-queue --queue-name dead-letter-queue
             {
                 "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue"
             }                    
 </pre>
 <pre>
-            ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue\
-                    |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
+        ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue\
+                |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
 
-            ❯ echo $DLQ_SQS_ARN
-                    arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
+        ❯ echo $DLQ_SQS_ARN
+                arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
 </pre>
 <pre>
-            ❯ awslocal sqs create-queue --queue-name input-queue \
-                --attributes '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}" }'
-                    {
-                        "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
-                    }
+        ❯ awslocal sqs create-queue --queue-name input-queue \
+            --attributes '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}", "MessageRetentionPeriod": "259200"}'
+                {
+                    "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+                }
+</pre>
+<pre>
+        # or set-attributes with a file .json
+        ❯ awslocal sqs delete-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+
+        ❯ awslocal sqs create-queue --queue-name input-queue --attributes file:///home/localstack/create-queue.json
+                {
+                    "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+                }        
 </pre>
 <pre>
             ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
@@ -378,11 +387,11 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                             "ApproximateNumberOfMessages": "0",
                             "ApproximateNumberOfMessagesNotVisible": "0",
                             "ApproximateNumberOfMessagesDelayed": "0",
-                            "CreatedTimestamp": "1711621223",
+                            "CreatedTimestamp": "1711657377",
                             "DelaySeconds": "0",
-                            "LastModifiedTimestamp": "1711621223",
+                            "LastModifiedTimestamp": "1711657377",
                             "MaximumMessageSize": "262144",
-                            "MessageRetentionPeriod": "345600",
+                            "MessageRetentionPeriod": "259200",
                             "QueueArn": "arn:aws:sqs:ap-southeast-3:000000000000:input-queue",
                             "ReceiveMessageWaitTimeSeconds": "0",
                             "VisibilityTimeout": "30",
@@ -396,15 +405,15 @@ Configure dead-letter-queue to be a DLQ for input-queue:
             ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue --message-body '{"hello": "world"}'
                     {
                         "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                        "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360"
-                    }                   
+                        "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e"
+                    }               
 </pre>
 <pre>
             ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
                     {
                         "Messages": [
                             {
-                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
+                                "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
                                 "ReceiptHandle": "MDNjNTQxZDMtMzE4OC00YzMyLTg4ZTgtOGJiZWEwMDUxMjE4IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTg1My4xOTk2Njk4",
                                 "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
                                 "Body": "{\"hello\": \"world\"}"
@@ -416,7 +425,7 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                     {
                         "Messages": [
                             {
-                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
+                                "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
                                 "ReceiptHandle": "MDM0NDZjM2YtMjQ1Zi00MGQ1LWJmODQtOWE1YzU2YWI4NThhIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTkzOC45Nzk2MzY=",
                                 "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
                                 "Body": "{\"hello\": \"world\"}"
@@ -426,7 +435,6 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 
             ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
                 &lt;nothing&gt;
-
 </pre>
 
 &nbsp;
