@@ -143,30 +143,30 @@ Command into the container.<br />
 
         ❯ awslocal sqs create-queue --queue-name submit_order
             {
-                "QueueUrl": "http://localhost:4566/000000000000/submit_order"
-            }        
+                "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order"
+            }     
 
         ❯ awslocal sqs list-queues --queue-name-prefix submit
             {
                 "QueueUrls": [
-                    "http://localhost:4566/000000000000/submit_order"
+                    "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order"
                 ]
-            } 
+            }
 </pre>
 <pre>
-        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
+        ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
             {
                 "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
-                "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd"
-            }        
+                "MessageId": "fba92c66-1442-422b-8d82-649acd0e9fad"
+            }       
 </pre>
 <pre>
-        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/submit_order
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order
             {
                 "Messages": [
                     {
-                        "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd",
-                        "ReceiptHandle": "qqemtvkidrwumgkpczckyrazordjtcjlqhsgexqsrjzfzhdfeujbuqeaydzsriwlnxufeuedqudaxyhscvqwprpwrqrmjcoptvcdtkdyoexslgoofcurefprsypvjuyjsyymxxzoohvdeiwtkcfmqolzuxkymnzewvmirdjtrzixpkbnzqzzydnbx",
+                        "MessageId": "fba92c66-1442-422b-8d82-649acd0e9fad",
+                        "ReceiptHandle": "OGM1YTc4MTYtODRkOS00MDQ3LTkyMWUtNDYxMDM4YjEyOWZhIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpzdWJtaXRfb3JkZXIgZmJhOTJjNjYtMTQ0Mi00MjJiLThkODItNjQ5YWNkMGU5ZmFkIDE3MTE2MzcwMTcuODI0NTUwOQ==",
                         "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
                         "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
                     }
@@ -174,8 +174,10 @@ Command into the container.<br />
             }
 </pre>
 <pre>
-        ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
+        ❯ awslocal sqs delete-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order
 </pre>
+
+&nbsp;
 
 Install jq (a lightweight and flexible command-line JSON processor).<br />
 <pre>
