@@ -307,7 +307,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 </pre>
 Delete a message from the queue.<br />
 <pre>
-        # awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle <receipt-handle>
+        # awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle &lt;receipt-handle&gt;
         ❯ awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle "kaiqacmyglqkcccdtqjfygtbcxhhndpmqnvrgdnrrjtueaigbhkcjgarcvncynjljryskepvvhcumbhqxhyuehqowhthjpawsfmtrjabztzssxnecukxudffouqpfnyknsgzitgtgskcmsogcjwxirysbgpuuzkhbispupqpwwfsndrpvcilprzkf"
 </pre>
 <pre>
