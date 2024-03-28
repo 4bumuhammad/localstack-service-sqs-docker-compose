@@ -6,6 +6,8 @@
 <pre>
     create-queue
     https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
+
+    https://docs.aws.amazon.com/cli/latest/reference/sqs/set-queue-attributes.html
 </pre>
 
 &nbsp;
@@ -175,7 +177,29 @@ open with other terminals.<br />
                 ]
             }
 
+        ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/submit_order --attributes file:///home/localstack/set-queue-attributes.json
+
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
+
+
+
+
+        # Example 2 :
+
+        ❯ awslocal sqs create-queue --queue-name test-queue --attributes "ReceiveMessageWaitTimeSeconds=1,VisibilityTimeout=20,RedrivePolicy.deadLetterTargetArn=$ARN,RedrivePolicy.maxReceiveCount=1"
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/test-queue"
+            }
+        
+        ❯ awslocal sqs list-queues --queue-name-prefix test
+            {
+                "QueueUrls": [
+                    "http://localhost:4566/000000000000/test-queue"
+                ]
+            }
+
+
+        ❯ awslocal sqs list-queues
         #########################################################################
 
         ❯ exit
