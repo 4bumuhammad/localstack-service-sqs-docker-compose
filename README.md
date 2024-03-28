@@ -227,6 +227,22 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 ]
             }
 
+        ❯ awslocal sqs get-queue-attributes --queue-url http://localhost:4566/000000000000/test-queue --attribute-names All | jq -r .
+            {
+                "Attributes": {
+                    "ApproximateNumberOfMessages": "0",
+                    "ApproximateNumberOfMessagesDelayed": "0",
+                    "ApproximateNumberOfMessagesNotVisible": "0",
+                    "CreatedTimestamp": "1711589035.023596",
+                    "DelaySeconds": "0",
+                    "LastModifiedTimestamp": "1711589035.023596",
+                    "MaximumMessageSize": "262144",
+                    "MessageRetentionPeriod": "345600",
+                    "QueueArn": "arn:aws:sqs:us-east-1:000000000000:test-queue",
+                    "ReceiveMessageWaitTimeSeconds": "1",
+                    "VisibilityTimeout": "20"
+                }
+            }
 
         ❯ awslocal sqs list-queues
         #########################################################################
