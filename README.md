@@ -151,7 +151,7 @@ command into the container.<br />
             aws_secret_access_key = aaa
         #########################################################################
 </pre>
-**&#x2705; Example 1**: create-queue, list-queue, send-message, receive-message, delete-queue
+**&#x2705; Example 1**: create-queue, list-queue, send-message, receive-message, delete-queue.
 <pre>
         #########################################################################
 
@@ -264,6 +264,24 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
             {
                 "QueueUrls": [
                     "http://localhost:4566/000000000000/test-queue"
+                ]
+            }
+
+        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/test-queue --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
+            {
+                "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
+                "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6"
+            }        
+
+        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue
+            {
+                "Messages": [
+                    {
+                        "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6",
+                        "ReceiptHandle": "whpyhpgatcgwntmvmkkhaehszfbsihcrknhtuhgthtkegtwkpajafbcmiwxebsijxynjfbyrbnquohtqcxashplhwkahhnqsvtucolhbqpkrcpioizuslzgxmndgihewwngracgopcajcknfgitdahlmjreuftgogdxwocbfzprgtmtxeqkkzziwm",
+                        "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
+                        "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+                    }
                 ]
             }
 
