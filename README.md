@@ -40,7 +40,7 @@
             services:
               localstack:
                 container_name: "${LOCALSTACK_DOCKER_NAME-localstack_main}"
-                image: localstack/localstack:0.12.14
+                image: localstack/localstack:3.2
                 container_name: localstack_sqs
                 network_mode: bridge
                 environment:
