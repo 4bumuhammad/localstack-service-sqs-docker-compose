@@ -16,6 +16,8 @@
 
 &nbsp;
 
+
+
 <pre>
     ❯ touch localstack/localstack_home/create-queue.json
 
@@ -58,52 +60,55 @@
     ❯ docker-compose up
 
         [+] Running 1/0
-        ⠿ Container localstack_sqs  Created                                                                                                                                         0.0s
+        ⠿ Container localstack_sqs  Created                                                                                                                                                               0.0s
         Attaching to localstack_sqs
         localstack_sqs  | 
         localstack_sqs  | LocalStack version: 3.2.0
         localstack_sqs  | LocalStack build date: 2024-02-28
         localstack_sqs  | LocalStack build git hash: 4a4692dd5
         localstack_sqs  | 
-        localstack_sqs  | 2024-03-28T09:59:36.175  INFO --- [-functhread4] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-        localstack_sqs  | 2024-03-28T09:59:36.175  INFO --- [-functhread4] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-        localstack_sqs  | 2024-03-28T09:59:36.433  INFO --- [  MainThread] localstack.utils.bootstrap : Execution of "start_runtime_components" took 606.60ms
+        localstack_sqs  | 2024-03-28T14:05:00.548  INFO --- [-functhread4] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+        localstack_sqs  | 2024-03-28T14:05:00.548  INFO --- [-functhread4] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+        localstack_sqs  | 2024-03-28T14:05:00.779  INFO --- [  MainThread] localstack.utils.bootstrap : Execution of "start_runtime_components" took 606.90ms
         localstack_sqs  | Ready.
 
 </pre>
 
 &nbsp;
 
-Check health:
-<div align="center">
-    <img src="./gambar-petunjuk/ss_localstack_health.png" alt="ss_localstack_health" style="display: block; margin: 0 auto;">
-</div> 
+&nbsp;
+
+Open with other terminals.
+<pre>
+    ❯ docker images --format "{{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}" | grep "localstack"
+        localstack/localstack   3.2     0c24dfc7a774    2024-02-28 11:36:19 +0700 WIB   1.12GB
+
+    ❯ docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}\t{{.Ports}}" | grep "localstack"
+        CONTAINER ID   IMAGE                           STATUS          NAMES            PORTS
+        2c702cd1c903   localstack/localstack:3.2   Up 9 minutes (healthy)   localstack_sqs   127.0.0.1:4566->4566/tcp, 4510-4559/tcp, 5678/tcp, 127.0.0.1:4571->4571/tcp
+</pre>
 
 &nbsp;
 
-Open with other terminals.<br />
-
+Check health:
 <pre>
-    ❯ docker images --format "{{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}" | grep "localstack"
-        localstack/localstack   0.12.14 e28c959c30fd    2021-07-03 03:24:38 +0700 WIB   754MB
-
-    ❯ docker ps -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Names}}\t{{.Ports}}"
-        CONTAINER ID   IMAGE                           STATUS          NAMES            PORTS
-        46fa761e7514   localstack/localstack:0.12.14   Up 37 seconds   localstack_sqs   127.0.0.1:4566->4566/tcp, 5678/tcp, 127.0.0.1:4571->4571/tcp, 8080/tcp
+    ❯ docker inspect --format 'Status: {{json .State.Health.Status}}, FailingStreak: {{json .State.Health.FailingStreak}}' localstack_sqs
+        Status: "healthy", FailingStreak: 0
 </pre>
 
 &nbsp;
 
 Command into the container.<br />
 <pre>
-    ❯ docker exec -it localstack_sqs /bin/sh
+    ❯ docker exec -it localstack_sqs /bin/bash
 </pre>
 <pre>
         #########################################################################
         ❯ aws configure list
+
                 Name                    Value             Type    Location
                 ----                    -----             ----    --------
-            profile                   <not set>             None    None
+            profile                <not set>             None    None
             access_key                <not set>             None    None
             secret_key                <not set>             None    None
                 region                <not set>             None    None
