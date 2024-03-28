@@ -113,21 +113,18 @@ Command into the container.<br />
             secret_key                <not set>             None    None
                 region                <not set>             None    None
 
-        ❯ cat ~/.aws/credentials
-            cat: can't open '/root/.aws/credentials': No such file or directory                
-
         ❯ aws configure set aws_access_key_id xyz
         ❯ aws configure set aws_secret_access_key aaa
         ❯ aws configure set default.region ap-southeast-3
 
         ❯ aws configure list
+
                 Name                    Value             Type    Location
                 ----                    -----             ----    --------
-            profile                    <not set>             None    None
-            access_key       ****************xyz  shared-credentials-file    
-            secret_key       ****************aaa  shared-credentials-file    
-                region            ap-southeast-3      config-file    ~/.aws/config
-                
+            profile                <not set>             None    None
+            access_key      ****************xyz shared-credentials-file    
+            secret_key      ****************aaa shared-credentials-file    
+                region           ap-southeast-3      config-file    ~/.aws/config
 
         ❯ cat ~/.aws/credentials
             [default]
