@@ -238,7 +238,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
         ❯ ls -lah /home/localstack/ | grep set-queue-attributes.json
             -rw-r--r--    1 root     root         166 Mar 28 02:04 set-queue-attributes.json
 
-        # or set-attributes with a file
+        # or set-attributes with a file .json
         ❯ awslocal sqs create-queue --queue-name test-queue
             {
                 "QueueUrl": "http://localhost:4566/000000000000/test-queue"
@@ -346,7 +346,38 @@ Command to purge the queue.<br />
 
 **&#x2705; Example 3**: Dead-letter queue testing
 <pre>
-        ❯ 
+        ❯ awslocal sqs create-queue --queue-name input-queue
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/input-queue"
+            }
+
+        ❯ awslocal sqs create-queue --queue-name dead-letter-queue
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/dead-letter-queue"
+            }
+
+        ❯ awslocal sqs create-queue --queue-name recovery-queue
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/recovery-queue"
+            }
+<pre>
+<pre>
+        ❯ awslocal sqs list-queues
+            {
+                "QueueUrls": [
+                    "http://localhost:4566/000000000000/input-queue",
+                    "http://localhost:4566/000000000000/dead-letter-queue",
+                    "http://localhost:4566/000000000000/recovery-queue"
+                ]
+            }        
+</pre>
+Configure dead-letter-queue to be a DLQ for input-queue:
+<pre>
+        ❯ awslocal sqs set-queue-attributes \
+            --queue-url http://localhost:4566/000000000000/input-queue \
+            --attributes '{
+            "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"1\"}"
+            }'
         ❯ 
         ❯ 
 <pre>
@@ -356,6 +387,7 @@ Command to purge the queue.<br />
         ❯ 
 <pre>
 <pre>
+
         ❯ 
         ❯ 
         ❯ 
