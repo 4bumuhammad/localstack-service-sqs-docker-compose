@@ -373,6 +373,17 @@ Command to purge the queue.<br />
 </pre>
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
+            ❯ export AWS_DEFAULT_REGION=ap-southeast-3
+            ❯ aws configure list
+                    Name                    Value             Type    Location
+                    ----                    -----             ----    --------
+                profile                   <not set>             None    None
+                access_key                <not set>             None    None
+                secret_key                <not set>             None    None
+                    region           ap-southeast-3              env    AWS_DEFAULT_REGION
+</pre>
+
+<pre>
         ❯ awslocal sqs set-queue-attributes \
             --queue-url http://localhost:4566/000000000000/input-queue \
             --attributes '{
