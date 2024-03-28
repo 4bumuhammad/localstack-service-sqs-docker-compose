@@ -436,8 +436,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 
 &nbsp;
 
+Check DLQ receive-message
 <pre>
-        # Check pada DLQ
         ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
                 {
                     "Messages": [
@@ -479,8 +479,9 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 &lt;nothing&gt;
 
 </pre>
+
+Listing the message move tasks should yield something like
 <pre>
-        # Listing the message move tasks should yield something like
         ❯ awslocal sqs list-message-move-tasks --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
                 {
                     "Results": [
