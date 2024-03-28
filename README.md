@@ -386,13 +386,11 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 </pre>
 
 <pre>
-        ❯ awslocal sqs set-queue-attributes \
+        <!-- ❯ awslocal sqs set-queue-attributes \
             --queue-url http://localhost:4566/000000000000/input-queue \
             --attributes '{
             "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"1\"}"
-            }'
-        ❯ 
-        ❯ 
+            }' -->
 <pre>
 <pre>
         # test : https://discuss.localstack.cloud/t/messages-pushed-to-sqs-dlq-not-visible-immediately-even-with-0-delayseconds-attribute-for-dlq/474
@@ -400,7 +398,7 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 
         ❯ awslocal sqs list-queues
 </pre>
-<pre>
+<!-- <pre>
         ❯ 
         ❯ 
         ❯ 
@@ -409,7 +407,7 @@ Configure dead-letter-queue to be a DLQ for input-queue:
         ❯ 
         ❯ 
         ❯ 
-</pre>
+</pre> -->
 
 &nbsp;
 
