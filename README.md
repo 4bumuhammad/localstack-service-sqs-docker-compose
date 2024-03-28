@@ -329,98 +329,6 @@ Command to purge the queue.<br />
 
 **&#x2705; Example 3**: Dead-letter queue testing
 
----
-
-<pre>
-        ❯ echo "########### Setting up localstack profile ###########"
-        ❯ aws configure set aws_access_key_id access_key --profile=localstack
-        ❯ aws configure set aws_secret_access_key secret_key --profile=localstack
-        ❯ aws configure set region sa-east-1 --profile=localstack
-        ❯ aws configure set default.region sa-east-1
-
-        ❯ export SOURCE_SQS=source-sqs
-        ❯ export DLQ_SQS=dlq-sqs
-
-        ❯ awslocal sqs create-queue --queue-name $DLQ_SQS
-            {
-                "QueueUrl": "http://localhost:4566/000000000000/dlq-sqs"
-            }
-
-        ❯ echo "########### ARN for DLQ ###########"
-        ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes\
-                        --attribute-name QueueArn --queue-url=http://localhost:4566/000000000000/"$DLQ_SQS"\
-                        |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
-        
-        ❯ echo $DLQ_SQS_ARN
-            arn:aws:sqs:us-east-1:000000000000:dlq-sqs
-
-
-        ❯ awslocal --profile=localstack sqs create-queue --queue-name $SOURCE_SQS \
-            --attributes '{
-                "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}",
-                "VisibilityTimeout": "10"
-            }'
-        {
-            "QueueUrl": "http://localhost:4566/000000000000/source-sqs"
-        }
-
-        ❯ echo "########### Listing queues ###########"
-        ❯ awslocal sqs list-queues
-        {
-            "QueueUrls": [
-                "http://localhost:4566/000000000000/dlq-sqs",
-                "http://localhost:4566/000000000000/source-sqs"
-            ]
-        }
-
-        ❯ echo "########### Listing Source SQS Attributes ###########"
-        ❯ awslocal sqs get-queue-attributes \
-            --attribute-name All --queue-url=http://localhost:4566/000000000000/"$SOURCE_SQS"       
-        {
-            "Attributes": {
-                "ApproximateNumberOfMessages": "0",
-                "ApproximateNumberOfMessagesDelayed": "0",
-                "ApproximateNumberOfMessagesNotVisible": "0",
-                "CreatedTimestamp": "1711607676.183656",
-                "DelaySeconds": "0",
-                "LastModifiedTimestamp": "1711607676.183656",
-                "MaximumMessageSize": "262144",
-                "MessageRetentionPeriod": "345600",
-                "QueueArn": "arn:aws:sqs:us-east-1:000000000000:source-sqs",
-                "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:000000000000:dlq-sqs\",\"maxReceiveCount\":2}",
-                "ReceiveMessageWaitTimeSeconds": "0",
-                "VisibilityTimeout": "10"
-            }
-        } 
-
-        # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        #Put message to Source SQS
-        ❯ awslocal sqs send-message --queue-url=http://localhost:4566/000000000000/source-sqs --message-body="BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
-            {
-                "MD5OfMessageBody": "bb433e30faecdbee39f3ba4a2789a928",
-                "MessageId": "5cf62b6c-aedd-461d-3b46-c3e4bca66aa0"
-            }
-
-        #Receive message from Source SQS
-        ❯ awslocal sqs receive-message --queue-url=http://localhost:4566/000000000000/source-sqs
-            {
-                "Messages": [
-                    {
-                        "MessageId": "5cf62b6c-aedd-461d-3b46-c3e4bca66aa0",
-                        "ReceiptHandle": "cnbjndbmvmesqxthhvdannmntjfzvqplqpitmmairnlcemffrzwhnmbpgfbsbfjexucaudbjsbcavkoctrtlxshmpokvnambiwdnzmbmzjuemsbxdmcluxydpfbwsctfciltmxysgqwramfimocaanvcrxqfmmqvwmuhxwkytphlojikyycflimhu",
-                        "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
-                        "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
-                    }
-                ]
-            }
-
-        #Receive message from DLQ SQS
-        ❯ awslocal sqs receive-message --queue-url=http://localhost:4566/000000000000/dlq-sqs     
-            &lt;nothing&gt;
-</pre>
-
----
-
 &nbsp;
 
 Note : To delete all existing queues in the default profile.
@@ -432,6 +340,8 @@ Note : To delete all existing queues in the default profile.
 
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
+        # Example 2 :
+
            ❯ aws configure set default.region ap-southeast-3
            ❯ aws configure list
                     Name                    Value             Type    Location
@@ -442,10 +352,6 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                     region           ap-southeast-3      config-file    ~/.aws/config
 </pre>
 <pre>
-            <!-- ❯ awslocal sqs create-queue --queue-name dead-letter-queue
-                    {
-                        "QueueUrl": "http://localhost:4566/000000000000/dead-letter-queue"
-                    } -->
             ❯ awslocal sqs create-queue --queue-name dead-letter-queue
             {
                 "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue"
