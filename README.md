@@ -453,6 +453,7 @@ Check DLQ receive-message
 
 &nbsp;
 
+Create queue recovery.
 <pre>
         ❯ awslocal sqs list-queues
                 {
