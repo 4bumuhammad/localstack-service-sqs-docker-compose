@@ -8,6 +8,8 @@
     https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
 
     https://docs.aws.amazon.com/cli/latest/reference/sqs/set-queue-attributes.html
+
+    https://docs.localstack.cloud/user-guide/aws/sqs/
 </pre>
 
 &nbsp;
@@ -149,7 +151,7 @@ command into the container.<br />
             aws_secret_access_key = aaa
         #########################################################################
 </pre>
-**&#x2705; Example 1**
+**&#x2705; Example 1**: create-queue, list-queue, send-message, receive-message, delete-queue
 <pre>
         #########################################################################
 
