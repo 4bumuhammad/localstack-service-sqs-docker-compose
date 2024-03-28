@@ -214,7 +214,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 
             jq-master-v20191114-85-g260888d269
 </pre>
-**&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages, delete-message
+**&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages, delete-message, purge-queue
 <pre>
         # Example 2 :
 
@@ -324,6 +324,11 @@ Delete a message from the queue.<br />
         }
 </pre>
 Command to purge the queue.<br />
+<pre>
+        ❯ awslocal sqs purge-queue --queue-url http://localhost:4566/000000000000/test-queue
+
+        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
+</pre>
 <pre>
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
         #########################################################################
