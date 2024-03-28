@@ -214,7 +214,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 
             jq-master-v20191114-85-g260888d269
 </pre>
-**&#x2705; Example 2**: create-queue, set-queue-attributes, ...
+**&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages
 <pre>
         # Example 2 :
 
@@ -304,6 +304,24 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                     }
                 ]
             }
+</pre>
+Delete a message from the queue.<br />
+<pre>
+        # awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle <receipt-handle>
+        ❯ awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle "kaiqacmyglqkcccdtqjfygtbcxhhndpmqnvrgdnrrjtueaigbhkcjgarcvncynjljryskepvvhcumbhqxhyuehqowhthjpawsfmtrjabztzssxnecukxudffouqpfnyknsgzitgtgskcmsogcjwxirysbgpuuzkhbispupqpwwfsndrpvcilprzkf"
+</pre>
+<pre>
+        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
+        {
+            "Messages": [
+                {
+                    "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d",
+                    "ReceiptHandle": "forhotuvzhddrutxywausgtycpqhazeckvcwgifjdkuywegpwktpyvxcpobtakuhkvmmuyekchkpkbkdnqscykrterkgqmhrfuwhzfjupgvffzjvihjhynbkrihxctbossceppbyuxrogdhengaqkcjpqoliflgzmgkdysqrfcurnrgnyzynfaibe",
+                    "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
+                    "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
+                }
+            ]
+        }
 </pre>
 <pre>
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
