@@ -225,7 +225,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 {
                     "QueueUrl": "http://localhost:4566/000000000000/test-queue"
                 }
-        
+</pre>
+<pre>        
         # or set-attributes with a file
         ❯ awslocal sqs create-queue --queue-name test-queue
             {
@@ -233,8 +234,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
             }        
 
         ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/test-queue --attributes file:///home/localstack/set-queue-attributes.json
-
-
+</pre>
+<pre>
         # continue command
         ❯ awslocal sqs list-queues --queue-name-prefix test
             {
