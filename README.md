@@ -151,6 +151,9 @@ Command into the container.<br />
             aws_secret_access_key = aaa
         #########################################################################
 </pre>
+
+&nbsp;
+
 **&#x2705; Example 1**: create-queue, list-queue, send-message, receive-message, delete-queue.
 <pre>
         #########################################################################
@@ -214,6 +217,9 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 
             jq-master-v20191114-85-g260888d269
 </pre>
+
+&nbsp;
+
 **&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages, delete-message, purge-queue
 <pre>
         # Example 2 :
@@ -335,6 +341,25 @@ Command to purge the queue.<br />
 
         ❯ exit
 </pre>
+
+&nbsp;
+
+**&#x2705; Example 3**: Dead-letter queue testing
+<pre>
+        ❯ 
+        ❯ 
+        ❯ 
+<pre>
+<pre>
+        ❯ 
+        ❯ 
+        ❯ 
+<pre>
+<pre>
+        ❯ 
+        ❯ 
+        ❯ 
+<pre>
 
 &nbsp;
 
