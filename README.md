@@ -554,7 +554,7 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 
      ❯ docker logs localstack_sqs
  
-     ❯ docker exec -it localstack_sqs /bin/sh
+     ❯ docker exec -it localstack_sqs /bin/bash
 </pre>
 
 ### &#x1F530; Command once more in the container's interactive shell
