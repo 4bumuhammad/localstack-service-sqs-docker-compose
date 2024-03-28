@@ -212,7 +212,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 
             jq-master-v20191114-85-g260888d269
 </pre>
-**&#x2705; Example 2**
+**&#x2705; Example 2**: create-queue, set-queue-attributes, ...
 <pre>
         # Example 2 :
 
