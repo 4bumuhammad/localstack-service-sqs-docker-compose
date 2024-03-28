@@ -440,34 +440,15 @@ Command to purge the queue.<br />
 
 ---
 
+&nbsp;
+
+Note : To delete all existing queues in the default profile.
 <pre>
-        ❯ awslocal sqs create-queue --queue-name input-queue
-            {
-                "QueueUrl": "http://localhost:4566/000000000000/input-queue"
-            }
-
-        ❯ awslocal sqs create-queue --queue-name dead-letter-queue
-            {
-                "QueueUrl": "http://localhost:4566/000000000000/dead-letter-queue"
-            }
-
-        ❯ awslocal sqs create-queue --queue-name recovery-queue
-            {
-                "QueueUrl": "http://localhost:4566/000000000000/recovery-queue"
-            }
+        ❯ /bin/sh /home/localstack/delete_all_queues_awslocal.sh 
 </pre>
-<pre>
-        ❯ awslocal sqs list-queues
-            {
-                "QueueUrls": [
-                    "http://localhost:4566/000000000000/input-queue",
-                    "http://localhost:4566/000000000000/dead-letter-queue",
-                    "http://localhost:4566/000000000000/recovery-queue"
-                ]
-            }      
 
-        <!-- ❯ /bin/sh /home/localstack/delete_all_queues_awslocal.sh  -->
-</pre>
+&nbsp;
+
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
             ❯ export AWS_DEFAULT_REGION=ap-southeast-3
