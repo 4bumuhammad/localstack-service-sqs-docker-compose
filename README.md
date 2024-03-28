@@ -216,8 +216,8 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 <pre>
         # Example 2 :
 
-        ❯ awslocal sqs create-queue --queue-name test-queue 
-            --attributes "ReceiveMessageWaitTimeSeconds=1,
+        ❯ awslocal sqs create-queue --queue-name test-queue --attributes 
+            "ReceiveMessageWaitTimeSeconds=1,
             VisibilityTimeout=20,
             RedrivePolicy.deadLetterTargetArn=$ARN,
             RedrivePolicy.maxReceiveCount=1"
