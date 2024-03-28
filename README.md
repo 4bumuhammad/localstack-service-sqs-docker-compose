@@ -435,30 +435,46 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 profile                   <not set>             None    None
                 access_key                <not set>             None    None
                 secret_key                <not set>             None    None
-                    region           ap-southeast-3              env    AWS_DEFAULT_REGION
+                    region           ap-southeast-3      config-file    ~/.aws/config
 </pre>
 <pre>
-            ❯ awslocal sqs create-queue --queue-name dead-letter-queue
+            <!-- ❯ awslocal sqs create-queue --queue-name dead-letter-queue
                     {
                         "QueueUrl": "http://localhost:4566/000000000000/dead-letter-queue"
-                    }
+                    } -->
+            ❯ awslocal sqs create-queue --queue-name dead-letter-queue
+            {
+                "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue"
+            }                    
 </pre>
 <pre>
-            ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://localhost:4566/000000000000/dead-letter-queue\
+            <!-- ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://localhost:4566/000000000000/dead-letter-queue\
                     |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
 
             ❯ echo $DLQ_SQS_ARN
-                    arn:aws:sqs:us-east-1:000000000000:dead-letter-queue
+                    arn:aws:sqs:us-east-1:000000000000:dead-letter-queue -->
+
+            ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue\
+                    |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
+
+            ❯ echo $DLQ_SQS_ARN
+                    arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
 </pre>
 <pre>
-            ❯ awslocal sqs create-queue --queue-name input-queue \
+            <!-- ❯ awslocal sqs create-queue --queue-name input-queue \
                 --attributes '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}" }'
                     {
                         "QueueUrl": "http://localhost:4566/000000000000/input-queue"
+                    } -->
+
+            ❯ awslocal sqs create-queue --queue-name input-queue \
+                --attributes '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"'"$DLQ_SQS_ARN"'\",\"maxReceiveCount\":\"2\"}" }'
+                    {
+                        "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
                     }
 </pre>
 <pre>
-            ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://localhost:4566/000000000000/input-queue
+            <!-- ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://localhost:4566/000000000000/input-queue
                     {
                         "Attributes": {
                             "ApproximateNumberOfMessages": "0",
@@ -474,17 +490,42 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                             "ReceiveMessageWaitTimeSeconds": "0",
                             "VisibilityTimeout": "30"
                         }
-                    }            
+                    }   -->
+
+            ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                    {
+                        "Attributes": {
+                            "ApproximateNumberOfMessages": "0",
+                            "ApproximateNumberOfMessagesNotVisible": "0",
+                            "ApproximateNumberOfMessagesDelayed": "0",
+                            "CreatedTimestamp": "1711621223",
+                            "DelaySeconds": "0",
+                            "LastModifiedTimestamp": "1711621223",
+                            "MaximumMessageSize": "262144",
+                            "MessageRetentionPeriod": "345600",
+                            "QueueArn": "arn:aws:sqs:ap-southeast-3:000000000000:input-queue",
+                            "ReceiveMessageWaitTimeSeconds": "0",
+                            "VisibilityTimeout": "30",
+                            "SqsManagedSseEnabled": "true",
+                            "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"2\"}"
+                        }
+                    }
+
 </pre>
 <pre>
-            ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/input-queue --message-body '{"hello": "world"}'
+            <!-- ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/input-queue --message-body '{"hello": "world"}'
                     {
                         "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
                         "MessageId": "40cb2a7c-80d9-5eac-f375-844b060807f2"
-                    }
+                    } -->
+            ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue --message-body '{"hello": "world"}'
+                    {
+                        "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                        "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360"
+                    }                   
 </pre>
 <pre>
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue
+            <!-- ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue
                     {
                         "Messages": [
                             {
@@ -494,9 +535,22 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                                 "Body": "{\"hello\": \"world\"}"
                             }
                         ]
+                    } -->
+
+            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                    {
+                        "Messages": [
+                            {
+                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
+                                "ReceiptHandle": "MDNjNTQxZDMtMzE4OC00YzMyLTg4ZTgtOGJiZWEwMDUxMjE4IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTg1My4xOTk2Njk4",
+                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                                "Body": "{\"hello\": \"world\"}"
+                            }
+                        ]
                     }
 
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue 
+
+            <!-- ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue 
                     {
                         "Messages": [
                             {
@@ -506,17 +560,34 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                                 "Body": "{\"hello\": \"world\"}"
                             }
                         ]
+                    } -->
+
+            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                    {
+                        "Messages": [
+                            {
+                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
+                                "ReceiptHandle": "MDM0NDZjM2YtMjQ1Zi00MGQ1LWJmODQtOWE1YzU2YWI4NThhIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTkzOC45Nzk2MzY=",
+                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                                "Body": "{\"hello\": \"world\"}"
+                            }
+                        ]
                     }
 
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue 
+
+            <!-- ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://localhost:4566/000000000000/input-queue 
                 &lt;nothing&gt;
+ -->
+            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                &lt;nothing&gt;
+
 </pre>
 
 &nbsp;
 
 <pre>
             # Check pada DLQ
-            ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/dead-letter-queue --max-number-of-messages 10
+            <!-- ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/dead-letter-queue --max-number-of-messages 10
                     {
                         "Messages": [
                             {
@@ -538,7 +609,20 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                                 "Body": "{\"hello\": \"world\"}"
                             }
                         ]
-                    }
+                    } -->
+
+            ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
+                    {
+                        "Messages": [
+                            {
+                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
+                                "ReceiptHandle": "YzA1NTcwYzMtMWFmZC00YWYwLWIyOWItNjliYWMyYjhlMzVmIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpkZWFkLWxldHRlci1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMjI2OC42NjE1NjA4",
+                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                                "Body": "{\"hello\": \"world\"}"
+                            }
+                        ]
+                    }            
+
 </pre>
 
 &nbsp;
