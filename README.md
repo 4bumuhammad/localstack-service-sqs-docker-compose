@@ -95,14 +95,14 @@
 
 &nbsp;
 
-check health:
+Check health:
 <div align="center">
     <img src="./gambar-petunjuk/ss_localstack_health.png" alt="ss_localstack_health" style="display: block; margin: 0 auto;">
 </div> 
 
 &nbsp;
 
-open with other terminals.<br />
+Open with other terminals.<br />
 
 <pre>
     ❯ docker images --format "{{.Repository}}\t{{.Tag}}\t{{.ID}}\t{{.CreatedAt}}\t{{.Size}}" | grep "localstack"
@@ -115,7 +115,7 @@ open with other terminals.<br />
 
 &nbsp;
 
-command into the container.<br />
+Command into the container.<br />
 <pre>
     ❯ docker exec -it localstack_sqs /bin/sh
 </pre>
@@ -214,7 +214,7 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 
             jq-master-v20191114-85-g260888d269
 </pre>
-**&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages
+**&#x2705; Example 2**: create-queue, set-queue-attributes, receive-message max-number-of-messages, delete-message
 <pre>
         # Example 2 :
 
@@ -323,6 +323,7 @@ Delete a message from the queue.<br />
             ]
         }
 </pre>
+Command to purge the queue.<br />
 <pre>
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
         #########################################################################
