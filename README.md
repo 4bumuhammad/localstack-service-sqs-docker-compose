@@ -188,9 +188,30 @@ command into the container.<br />
         ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/submit_order --attributes file:///home/localstack/set-queue-attributes.json
 
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
+</pre>
 
+Install jq (a lightweight and flexible command-line JSON processor).<br />
+<pre>
+        # Install jq
+        ❯ apk update && apk add --no-cache jq
 
+            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+            v3.11.13-12-g2cfa91a2b4 [http://dl-cdn.alpinelinux.org/alpine/v3.11/main]
+            v3.11.11-124-gf2729ece5a [http://dl-cdn.alpinelinux.org/alpine/v3.11/community]
+            OK: 11307 distinct packages available
+            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
+            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
+            (1/2) Installing oniguruma (6.9.4-r1)
+            (2/2) Installing jq (1.6-r0)
+            Executing busybox-1.31.1-r10.trigger
+            OK: 377 MiB in 94 packages        
 
+        ❯ jq --version
+
+            jq-master-v20191114-85-g260888d269
+</pre>
+<pre>
 
         # Example 2 :
 
