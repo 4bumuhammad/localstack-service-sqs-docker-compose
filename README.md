@@ -381,116 +381,131 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 }        
 </pre>
 <pre>
-            ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
-                    {
-                        "Attributes": {
-                            "ApproximateNumberOfMessages": "0",
-                            "ApproximateNumberOfMessagesNotVisible": "0",
-                            "ApproximateNumberOfMessagesDelayed": "0",
-                            "CreatedTimestamp": "1711657377",
-                            "DelaySeconds": "0",
-                            "LastModifiedTimestamp": "1711657377",
-                            "MaximumMessageSize": "262144",
-                            "MessageRetentionPeriod": "259200",
-                            "QueueArn": "arn:aws:sqs:ap-southeast-3:000000000000:input-queue",
-                            "ReceiveMessageWaitTimeSeconds": "0",
-                            "VisibilityTimeout": "30",
-                            "SqsManagedSseEnabled": "true",
-                            "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"2\"}"
+        ❯ awslocal sqs get-queue-attributes --attribute-name All --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                {
+                    "Attributes": {
+                        "ApproximateNumberOfMessages": "0",
+                        "ApproximateNumberOfMessagesNotVisible": "0",
+                        "ApproximateNumberOfMessagesDelayed": "0",
+                        "CreatedTimestamp": "1711657377",
+                        "DelaySeconds": "0",
+                        "LastModifiedTimestamp": "1711657377",
+                        "MaximumMessageSize": "262144",
+                        "MessageRetentionPeriod": "259200",
+                        "QueueArn": "arn:aws:sqs:ap-southeast-3:000000000000:input-queue",
+                        "ReceiveMessageWaitTimeSeconds": "0",
+                        "VisibilityTimeout": "30",
+                        "SqsManagedSseEnabled": "true",
+                        "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"2\"}"
+                    }
+                }
+
+</pre>
+<pre>
+        ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue --message-body '{"hello": "world"}'
+                {
+                    "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                    "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e"
+                }               
+</pre>
+<pre>
+        ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                {
+                    "Messages": [
+                        {
+                            "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
+                            "ReceiptHandle": "MDNjNTQxZDMtMzE4OC00YzMyLTg4ZTgtOGJiZWEwMDUxMjE4IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTg1My4xOTk2Njk4",
+                            "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                            "Body": "{\"hello\": \"world\"}"
                         }
-                    }
+                    ]
+                }
 
+        ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+                {
+                    "Messages": [
+                        {
+                            "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
+                            "ReceiptHandle": "MDM0NDZjM2YtMjQ1Zi00MGQ1LWJmODQtOWE1YzU2YWI4NThhIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTkzOC45Nzk2MzY=",
+                            "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                            "Body": "{\"hello\": \"world\"}"
+                        }
+                    ]
+                }
+
+        ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+            &lt;nothing&gt;
 </pre>
+
+&nbsp;
+
 <pre>
-            ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue --message-body '{"hello": "world"}'
-                    {
-                        "MD5OfMessageBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                        "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e"
-                    }               
+        # Check pada DLQ
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
+                {
+                    "Messages": [
+                        {
+                            "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
+                            "ReceiptHandle": "MTQ1ZDgwZjAtZTM1OC00MzIxLTk3ZTktYjZiYTY1MjNmNDI0IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpkZWFkLWxldHRlci1xdWV1ZSAxMmUxYjIxNC1jMzZjLTQ5ODMtODQ1MC1hY2MyZTBmNjAyM2UgMTcxMTY1ODUyMi44NjY2ODM3",
+                            "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                            "Body": "{\"hello\": \"world\"}"
+                        }
+                    ]
+                }       
 </pre>
+
+&nbsp;
+
 <pre>
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
-                    {
-                        "Messages": [
-                            {
-                                "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
-                                "ReceiptHandle": "MDNjNTQxZDMtMzE4OC00YzMyLTg4ZTgtOGJiZWEwMDUxMjE4IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTg1My4xOTk2Njk4",
-                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                                "Body": "{\"hello\": \"world\"}"
-                            }
-                        ]
-                    }
+        ❯ awslocal sqs list-queues
+                {
+                    "QueueUrls": [
+                        "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue",
+                        "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+                    ]
+                }
 
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
-                    {
-                        "Messages": [
-                            {
-                                "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
-                                "ReceiptHandle": "MDM0NDZjM2YtMjQ1Zi00MGQ1LWJmODQtOWE1YzU2YWI4NThhIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDppbnB1dC1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMTkzOC45Nzk2MzY=",
-                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                                "Body": "{\"hello\": \"world\"}"
-                            }
-                        ]
-                    }
+        ❯ awslocal sqs create-queue --queue-name recovery-queue
+                {
+                    "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue"
+                }
 
-            ❯ awslocal sqs receive-message --visibility-timeout 0 --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+        ❯ awslocal sqs start-message-move-task \
+                --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue \
+                --destination-arn arn:aws:sqs:ap-southeast-3:000000000000:recovery-queue
+                {
+                    "TaskHandle": "eyJ0YXNrSWQiOiIwMTIwMWFjYy1kNGY3LTQ0ZDEtOGE4MC1mM2Q2Mjc5MWVlNjkiLCJzb3VyY2VBcm4iOiJhcm46YXdzOnNxczphcC1zb3V0aGVhc3QtMzowMDAwMDAwMDAwMDA6ZGVhZC1sZXR0ZXItcXVldWUifQ=="
+                }
+
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
                 &lt;nothing&gt;
-</pre>
 
-&nbsp;
-
-<pre>
-            # Check pada DLQ
-            ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
-                    {
-                        "Messages": [
-                            {
-                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
-                                "ReceiptHandle": "YzA1NTcwYzMtMWFmZC00YWYwLWIyOWItNjliYWMyYjhlMzVmIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpkZWFkLWxldHRlci1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMjI2OC42NjE1NjA4",
-                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                                "Body": "{\"hello\": \"world\"}"
-                            }
-                        ]
-                    }            
-</pre>
-
-&nbsp;
-
-<pre>
-            ❯ awslocal sqs list-queues
-                    {
-                        "QueueUrls": [
-                            "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue",
-                            "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
-                        ]
-                    }
-
-            ❯ awslocal sqs create-queue --queue-name recovery-queue
-                    {
-                        "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue"
-                    }
-
-            ❯ awslocal sqs start-message-move-task \
-                    --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue \
-                    --destination-arn arn:aws:sqs:ap-southeast-3:000000000000:recovery-queue
-                    {
-                        "TaskHandle": "eyJ0YXNrSWQiOiIwMTIwMWFjYy1kNGY3LTQ0ZDEtOGE4MC1mM2Q2Mjc5MWVlNjkiLCJzb3VyY2VBcm4iOiJhcm46YXdzOnNxczphcC1zb3V0aGVhc3QtMzowMDAwMDAwMDAwMDA6ZGVhZC1sZXR0ZXItcXVldWUifQ=="
-                    }
-
-
-            ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue --max-number-of-messages 10
-                    {
-                        "Messages": [
-                            {
-                                "MessageId": "398a9263-f1bb-4953-bb38-b176e9da7360",
-                                "ReceiptHandle": "MTBhMmI0YzUtOGI0Ny00NjRhLWE5NWQtMmIwMWI1NzRjYWM0IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpyZWNvdmVyeS1xdWV1ZSAzOThhOTI2My1mMWJiLTQ5NTMtYmIzOC1iMTc2ZTlkYTczNjAgMTcxMTYyMzU5Ni43MTc0NzU3",
-                                "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
-                                "Body": "{\"hello\": \"world\"}"
-                            }
-                        ]
-                    }
-
-            aws sqs move-message --source-queue-url rn:aws:sqs:us-east-1:000000000000:dead-letter-queue --queue-url arn:aws:sqs:us-east-1:000000000000:recovery-queue --receipt-handle "vvyvgbxviazkxfaxtqgmagjchlpsljasabrxserqvwqxygzlvpcfhnfbcrwfqolhudzbrlhljxwjippcpehwimjjoruvdrkdunqkraxgdueesjdhsgpcpmuhwyllplfpjednmwhjadmkzjsvyxoawcryusnrwwkdhneejalaohpxmjxfzwacfovrg"
+        # Listing the message move tasks should yield something like
+        ❯ awslocal sqs list-message-move-tasks --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
+                {
+                    "Results": [
+                        {
+                            "Status": "COMPLETED",
+                            "SourceArn": "arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue",
+                            "DestinationArn": "arn:aws:sqs:ap-southeast-3:000000000000:recovery-queue",
+                            "ApproximateNumberOfMessagesMoved": 1,
+                            "ApproximateNumberOfMessagesToMove": 1,
+                            "StartedTimestamp": 1711658656017
+                        }
+                    ]
+                }
+                 
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue --max-number-of-messages 10
+                {
+                    "Messages": [
+                        {
+                            "MessageId": "12e1b214-c36c-4983-8450-acc2e0f6023e",
+                            "ReceiptHandle": "MjE2MmIyZTctNGVmOC00OGQ5LWJhOWMtZmUyYTczNTgxZWUyIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpyZWNvdmVyeS1xdWV1ZSAxMmUxYjIxNC1jMzZjLTQ5ODMtODQ1MC1hY2MyZTBmNjAyM2UgMTcxMTY1ODcwNC45MjgwOTk5",
+                            "MD5OfBody": "49dfdd54b01cbcd2d2ab5e9e5ee6b9b9",
+                            "Body": "{\"hello\": \"world\"}"
+                        }
+                    ]
+                }
 
 </pre>
 
