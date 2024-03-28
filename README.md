@@ -273,14 +273,26 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
                 "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6"
             }        
 
-        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue
+        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/test-queue --message-body "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
+            {
+                "MD5OfMessageBody": "bb433e30faecdbee39f3ba4a2789a928",
+                "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d"
+            }
+
+        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
             {
                 "Messages": [
                     {
                         "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6",
-                        "ReceiptHandle": "whpyhpgatcgwntmvmkkhaehszfbsihcrknhtuhgthtkegtwkpajafbcmiwxebsijxynjfbyrbnquohtqcxashplhwkahhnqsvtucolhbqpkrcpioizuslzgxmndgihewwngracgopcajcknfgitdahlmjreuftgogdxwocbfzprgtmtxeqkkzziwm",
+                        "ReceiptHandle": "dywtavvbecbzeoxmxbueqdjwqkzqmnpnommlzbemmzeijrllxawvuhwipgfznqchhmphfvfffyaotilodzumusuqthyhsylggieatqoradulyjtctxipsifwvmrinewebcmvdczwkgnnwikacelqgqumlzgvksdwsxabddijhrnsngdhqmgtxoveh",
                         "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
                         "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+                    },
+                    {
+                        "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d",
+                        "ReceiptHandle": "thvdctvafgiddozmaywtsjcbzshejzxipnjoygtxvssasyaisbnywaeezbjguoezpvjkztvmfvtukaebihczuqdvgmtkponvelqrjbfjcsorihafegmazrnbcrprxzojhihujtstrktejshorftlvfrytoesvqeqoqlotxhbtngvwalnwmnrxfaff",
+                        "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
+                        "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
                     }
                 ]
             }
