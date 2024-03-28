@@ -4,9 +4,6 @@
 
 **Reference :**<br />
 <pre>
-    create-queue
-    https://docs.aws.amazon.com/cli/latest/reference/sqs/create-queue.html
-
     https://docs.aws.amazon.com/cli/latest/reference/sqs/set-queue-attributes.html
 
     https://docs.localstack.cloud/user-guide/aws/sqs/
