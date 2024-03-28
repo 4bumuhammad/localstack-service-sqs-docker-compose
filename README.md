@@ -369,7 +369,9 @@ Command to purge the queue.<br />
                     "http://localhost:4566/000000000000/dead-letter-queue",
                     "http://localhost:4566/000000000000/recovery-queue"
                 ]
-            }        
+            }      
+
+        ❯ /bin/sh /home/localstack/delete_all_queues_awslocal.sh 
 </pre>
 Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
@@ -393,16 +395,21 @@ Configure dead-letter-queue to be a DLQ for input-queue:
         ❯ 
 <pre>
 <pre>
-        ❯ 
-        ❯ 
-        ❯ 
-<pre>
-<pre>
+        # test : https://discuss.localstack.cloud/t/messages-pushed-to-sqs-dlq-not-visible-immediately-even-with-0-delayseconds-attribute-for-dlq/474
+        ❯ awslocal sqs create-queue --queue-name sample-queue-dlq --attributes '{"MessageRetentionPeriod": "259200", "DelaySeconds": "0"}'
 
-        ❯ 
-        ❯ 
-        ❯ 
+        ❯ awslocal sqs list-queues
+</pre>
 <pre>
+        ❯ 
+        ❯ 
+        ❯ 
+</pre>
+<pre>
+        ❯ 
+        ❯ 
+        ❯ 
+</pre>
 
 &nbsp;
 
