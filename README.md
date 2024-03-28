@@ -466,7 +466,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 {
                     "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue"
                 }
-
+</pre>
+<pre>
         ❯ awslocal sqs start-message-move-task \
                 --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue \
                 --destination-arn arn:aws:sqs:ap-southeast-3:000000000000:recovery-queue
@@ -477,6 +478,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
         ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue --max-number-of-messages 10
                 &lt;nothing&gt;
 
+</pre>
+<pre>
         # Listing the message move tasks should yield something like
         ❯ awslocal sqs list-message-move-tasks --source-arn arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue
                 {
@@ -491,7 +494,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                         }
                     ]
                 }
-                 
+</pre>
+<pre>
         ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/recovery-queue --max-number-of-messages 10
                 {
                     "Messages": [
@@ -503,7 +507,6 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                         }
                     ]
                 }
-
 </pre>
 
 &nbsp;
