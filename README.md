@@ -10,6 +10,8 @@
     https://docs.aws.amazon.com/cli/latest/reference/sqs/set-queue-attributes.html
 
     https://docs.localstack.cloud/user-guide/aws/sqs/
+
+    https://github.com/polovyivan/localstack-sqs-with-dlq-setup/tree/main/docker-compose
 </pre>
 
 &nbsp;
@@ -395,6 +397,11 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 <pre>
         # test : https://discuss.localstack.cloud/t/messages-pushed-to-sqs-dlq-not-visible-immediately-even-with-0-delayseconds-attribute-for-dlq/474
         ❯ awslocal sqs create-queue --queue-name sample-queue-dlq --attributes '{"MessageRetentionPeriod": "259200", "DelaySeconds": "0"}'
+            {
+                "QueueUrl": "http://localhost:4566/000000000000/sample-queue-dlq"
+            }
+
+        ❯ awslocal sqs create-queue --queue-name sample-queue --attributes '{"RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:sample-queue-dlq\",\"maxReceiveCount\":\"3\"}", "VisibilityTimeout": "1"}'
 
         ❯ awslocal sqs list-queues
 </pre>
