@@ -515,30 +515,34 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 ### &#x1F530; command used outside the container:
 
 <pre>
-❯ aws --endpoint-url=http://localhost:4566 sqs list-queues --queue-name-prefix submit
-    {
-        "QueueUrls": [
-            "http://localhost:4566/000000000000/submit_order"
-        ]
-    } 
 
-❯ aws --endpoint-url=http://localhost:4566 sqs send-message --queue-url http://localhost:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
-    {
-        "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
-        "MessageId": "6483c5e2-71ce-1845-de5d-6dd7aa41807a"
-    }
+    ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs list-queues --queue-name-prefix submit
+        {
+            "QueueUrls": [
+                "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order"
+            ]
+        }
 
-❯ aws --endpoint-url=http://localhost:4566 sqs receive-message --queue-url http://localhost:4566/000000000000/submit_order
-    {
-        "Messages": [
+    ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs send-message \
+        --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order \
+        --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
             {
-                "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd",
-                "ReceiptHandle": "kevpbdhhkwpmaptwjvzktnbszkhluxxbrvcsvqzdruofmapwvocjybtzaorqmulumewwiaprsxgawbcqkqdlvhoctspfdqyncqwtizbzmsrfwrthrvcwxgsspgbkmletyfvufcgexukptirfussliwpmsrkjpssujkvzfzzycryxhqkfrexhgxtvo",
-                "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
-                "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+                "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
+                "MessageId": "0ae30d3f-a3cf-4490-95d3-841f458d2df2"
             }
-        ]
-    }
+
+    ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs receive-message \
+        --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order
+            {
+                "Messages": [
+                    {
+                        "MessageId": "0ae30d3f-a3cf-4490-95d3-841f458d2df2",
+                        "ReceiptHandle": "Njc3NjFkMGQtYWI0Yy00YjM0LWFiNWEtMDdkMWNmOWZmOTIzIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDpzdWJtaXRfb3JkZXIgMGFlMzBkM2YtYTNjZi00NDkwLTk1ZDMtODQxZjQ1OGQyZGYyIDE3MTE2NjEzODEuOTY2ODQ5Mw==",
+                        "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
+                        "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
+                    }
+                ]
+            }
 </pre>
 
 &nbsp;
