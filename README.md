@@ -515,14 +515,14 @@ Configure dead-letter-queue to be a DLQ for input-queue:
 ### &#x1F530; command used outside the container:
 
 <pre>
-
     ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs list-queues --queue-name-prefix submit
         {
             "QueueUrls": [
                 "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order"
             ]
         }
-
+</pre>
+<pre>
     ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs send-message \
         --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order \
         --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
@@ -530,7 +530,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
                 "MessageId": "0ae30d3f-a3cf-4490-95d3-841f458d2df2"
             }
-
+</pre>
+<pre>
     ❯ aws --endpoint-url=http://localhost:4566 --region=ap-southeast-3 sqs receive-message \
         --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/submit_order
             {
@@ -544,6 +545,8 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 ]
             }
 </pre>
+
+&nbsp;
 
 &nbsp;
 
