@@ -168,14 +168,15 @@ command into the container.<br />
                     "http://localhost:4566/000000000000/submit_order"
                 ]
             } 
-
-
+</pre>
+<pre>
         ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/submit_order --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
             {
                 "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
                 "MessageId": "9ee99b4a-7204-8a83-e3c5-ae4617b45dcd"
             }        
-
+</pre>
+<pre>
         ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/submit_order
             {
                 "Messages": [
@@ -187,7 +188,8 @@ command into the container.<br />
                     }
                 ]
             }
-
+</pre>
+<pre>
         ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/submit_order
 </pre>
 
