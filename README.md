@@ -182,23 +182,9 @@ Command into the container.<br />
 Install jq (a lightweight and flexible command-line JSON processor).<br />
 <pre>
         # Install jq
-        ❯ apk update && apk add --no-cache jq
-
-            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
-            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
-            v3.11.13-12-g2cfa91a2b4 [http://dl-cdn.alpinelinux.org/alpine/v3.11/main]
-            v3.11.11-124-gf2729ece5a [http://dl-cdn.alpinelinux.org/alpine/v3.11/community]
-            OK: 11307 distinct packages available
-            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/main/x86_64/APKINDEX.tar.gz
-            fetch http://dl-cdn.alpinelinux.org/alpine/v3.11/community/x86_64/APKINDEX.tar.gz
-            (1/2) Installing oniguruma (6.9.4-r1)
-            (2/2) Installing jq (1.6-r0)
-            Executing busybox-1.31.1-r10.trigger
-            OK: 377 MiB in 94 packages        
-
+        ❯ apt update && apt install jq
         ❯ jq --version
-
-            jq-master-v20191114-85-g260888d269
+            jq-1.6
 </pre>
 
 &nbsp;
@@ -207,87 +193,93 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 <pre>
         # Example 2 :
 
-        ❯ awslocal sqs create-queue --queue-name test-queue --attributes 
-            "ReceiveMessageWaitTimeSeconds=1,
-             VisibilityTimeout=20,
-             RedrivePolicy.deadLetterTargetArn=$ARN,
-             RedrivePolicy.maxReceiveCount=1"
-
-                {
-                    "QueueUrl": "http://localhost:4566/000000000000/test-queue"
-                }
+        ❯ awslocal sqs create-queue --queue-name test-queue \
+            --attributes "ReceiveMessageWaitTimeSeconds=1,\
+                        VisibilityTimeout=20, \
+                        RedrivePolicy.deadLetterTargetArn=$ARN,RedrivePolicy.maxReceiveCount=1"
+            {
+                "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue"
+            }
+        
+        ❯ awslocal sqs delete-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue
 </pre>
 <pre>        
         ❯ ls -lah /home/localstack/ | grep set-queue-attributes.json
-            -rw-r--r--    1 root     root         166 Mar 28 02:04 set-queue-attributes.json
+            -rw-r--r-- 1 root root  166 Mar 28 02:04 set-queue-attributes.json
 
         # or set-attributes with a file .json
         ❯ awslocal sqs create-queue --queue-name test-queue
             {
-                "QueueUrl": "http://localhost:4566/000000000000/test-queue"
-            }        
+                "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue"
+            }
 
-        ❯ awslocal sqs set-queue-attributes --queue-url http://localhost:4566/000000000000/test-queue --attributes file:///home/localstack/set-queue-attributes.json
+        ❯ awslocal sqs set-queue-attributes \
+            --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue \
+            --attributes file:///home/localstack/set-queue-attributes.json
 </pre>
 <pre>
         # continue command
         ❯ awslocal sqs list-queues --queue-name-prefix test
             {
                 "QueueUrls": [
-                    "http://localhost:4566/000000000000/test-queue"
+                    "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue"
                 ]
             }
 
-        ❯ awslocal sqs get-queue-attributes --queue-url http://localhost:4566/000000000000/test-queue --attribute-names All | jq -r .
+
+        ❯ awslocal sqs get-queue-attributes --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --attribute-names All | jq -r .
             {
-                "Attributes": {
-                    "ApproximateNumberOfMessages": "0",
-                    "ApproximateNumberOfMessagesDelayed": "0",
-                    "ApproximateNumberOfMessagesNotVisible": "0",
-                    "CreatedTimestamp": "1711589035.023596",
-                    "DelaySeconds": "0",
-                    "LastModifiedTimestamp": "1711589035.023596",
-                    "MaximumMessageSize": "262144",
-                    "MessageRetentionPeriod": "345600",
-                    "QueueArn": "arn:aws:sqs:us-east-1:000000000000:test-queue",
-                    "ReceiveMessageWaitTimeSeconds": "1",
-                    "VisibilityTimeout": "20"
-                }
+            "Attributes": {
+                "ApproximateNumberOfMessages": "0",
+                "ApproximateNumberOfMessagesNotVisible": "0",
+                "ApproximateNumberOfMessagesDelayed": "0",
+                "CreatedTimestamp": "1711637978",
+                "DelaySeconds": "0",
+                "LastModifiedTimestamp": "1711637978",
+                "MaximumMessageSize": "262144",
+                "MessageRetentionPeriod": "345600",
+                "QueueArn": "arn:aws:sqs:ap-southeast-3:000000000000:test-queue",
+                "ReceiveMessageWaitTimeSeconds": "1",
+                "VisibilityTimeout": "20",
+                "SqsManagedSseEnabled": "true"
+            }
             }
 
         ❯ awslocal sqs list-queues
             {
                 "QueueUrls": [
-                    "http://localhost:4566/000000000000/test-queue"
+                    "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue",
                 ]
             }
 </pre>
 <pre>
-        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/test-queue --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
+        ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue \
+            --message-body "Welcome to SQS queue by Dhony Abu Muhammad"
             {
                 "MD5OfMessageBody": "7505439829c760b42b22a2c6a81a3746",
-                "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6"
-            }        
+                "MessageId": "06f1bc5f-0932-4a2b-946a-544dec4bb736"
+            }    
 
-        ❯ awslocal sqs send-message --queue-url http://localhost:4566/000000000000/test-queue --message-body "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
+        ❯ awslocal sqs send-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue \
+            --message-body "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
             {
                 "MD5OfMessageBody": "bb433e30faecdbee39f3ba4a2789a928",
-                "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d"
+                "MessageId": "0a87b845-dcc6-4490-9ffa-3388c9f69076"
             }
 </pre>
 <pre>
-        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --max-number-of-messages 2
             {
                 "Messages": [
                     {
-                        "MessageId": "65f8de23-6a08-8270-99dd-f9edd79a79e6",
-                        "ReceiptHandle": "dywtavvbecbzeoxmxbueqdjwqkzqmnpnommlzbemmzeijrllxawvuhwipgfznqchhmphfvfffyaotilodzumusuqthyhsylggieatqoradulyjtctxipsifwvmrinewebcmvdczwkgnnwikacelqgqumlzgvksdwsxabddijhrnsngdhqmgtxoveh",
+                        "MessageId": "06f1bc5f-0932-4a2b-946a-544dec4bb736",
+                        "ReceiptHandle": "OGY3YjRmYTEtMDk4ZC00MmJmLThiYjQtOGNmOWE1YWVkOTA1IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDp0ZXN0LXF1ZXVlIDA2ZjFiYzVmLTA5MzItNGEyYi05NDZhLTU0NGRlYzRiYjczNiAxNzExNjM4ODgxLjEyMjMyNjQ=",
                         "MD5OfBody": "7505439829c760b42b22a2c6a81a3746",
                         "Body": "Welcome to SQS queue by Dhony Abu Muhammad"
                     },
                     {
-                        "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d",
-                        "ReceiptHandle": "thvdctvafgiddozmaywtsjcbzshejzxipnjoygtxvssasyaisbnywaeezbjguoezpvjkztvmfvtukaebihczuqdvgmtkponvelqrjbfjcsorihafegmazrnbcrprxzojhihujtstrktejshorftlvfrytoesvqeqoqlotxhbtngvwalnwmnrxfaff",
+                        "MessageId": "0a87b845-dcc6-4490-9ffa-3388c9f69076",
+                        "ReceiptHandle": "ZDFmYTJjZWYtOWM1Zi00OTgzLWIzM2UtYWFjN2VkZTEyMDYwIGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDp0ZXN0LXF1ZXVlIDBhODdiODQ1LWRjYzYtNDQ5MC05ZmZhLTMzODhjOWY2OTA3NiAxNzExNjM4ODgxLjEyMjM0MDQ=",
                         "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
                         "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
                     }
@@ -296,30 +288,30 @@ Install jq (a lightweight and flexible command-line JSON processor).<br />
 </pre>
 Delete a message from the queue.<br />
 <pre>
-        # awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle &lt;receipt-handle&gt;
-        ❯ awslocal sqs delete-message --queue-url http://localhost:4566/000000000000/test-queue --receipt-handle "kaiqacmyglqkcccdtqjfygtbcxhhndpmqnvrgdnrrjtueaigbhkcjgarcvncynjljryskepvvhcumbhqxhyuehqowhthjpawsfmtrjabztzssxnecukxudffouqpfnyknsgzitgtgskcmsogcjwxirysbgpuuzkhbispupqpwwfsndrpvcilprzkf"
+        # awslocal sqs delete-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --receipt-handle &lt;receipt-handle&gt;
+        ❯ awslocal sqs delete-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --receipt-handle "OGY3YjRmYTEtMDk4ZC00MmJmLThiYjQtOGNmOWE1YWVkOTA1IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDp0ZXN0LXF1ZXVlIDA2ZjFiYzVmLTA5MzItNGEyYi05NDZhLTU0NGRlYzRiYjczNiAxNzExNjM4ODgxLjEyMjMyNjQ="
 </pre>
 <pre>
-        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
-        {
-            "Messages": [
-                {
-                    "MessageId": "d9b80a7b-f5d4-11b5-efad-90977eaf465d",
-                    "ReceiptHandle": "forhotuvzhddrutxywausgtycpqhazeckvcwgifjdkuywegpwktpyvxcpobtakuhkvmmuyekchkpkbkdnqscykrterkgqmhrfuwhzfjupgvffzjvihjhynbkrihxctbossceppbyuxrogdhengaqkcjpqoliflgzmgkdysqrfcurnrgnyzynfaibe",
-                    "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
-                    "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
-                }
-            ]
-        }
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --max-number-of-messages 2
+            {
+                "Messages": [
+                    {
+                        "MessageId": "0a87b845-dcc6-4490-9ffa-3388c9f69076",
+                        "ReceiptHandle": "YmQ3MTZhYjAtZTkxNy00MjkzLWE3N2EtNWE4OGJmNDQxZTk5IGFybjphd3M6c3FzOmFwLXNvdXRoZWFzdC0zOjAwMDAwMDAwMDAwMDp0ZXN0LXF1ZXVlIDBhODdiODQ1LWRjYzYtNDQ5MC05ZmZhLTMzODhjOWY2OTA3NiAxNzExNjM5MDMxLjI2MzY3MjQ=",
+                        "MD5OfBody": "bb433e30faecdbee39f3ba4a2789a928",
+                        "Body": "BMKG | Mag:3.7, 28-Mar-2024 04:03:03WIB, Lok:5.83LS, 112.35BT (123 km TimurLaut TUBAN-JATIM), Kedlmn:10 Km"
+                    }
+                ]
+            }
 </pre>
 Command to purge the queue.<br />
 <pre>
-        ❯ awslocal sqs purge-queue --queue-url http://localhost:4566/000000000000/test-queue
+        ❯ awslocal sqs purge-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue
 
-        ❯ awslocal sqs receive-message --queue-url http://localhost:4566/000000000000/test-queue --max-number-of-messages 2
+        ❯ awslocal sqs receive-message --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue --max-number-of-messages 2
 </pre>
 <pre>
-        ❯ awslocal sqs delete-queue --queue-url http://localhost:4566/000000000000/test-queue
+        ❯ awslocal sqs delete-queue --queue-url  http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/test-queue
         #########################################################################
 
         ❯ exit

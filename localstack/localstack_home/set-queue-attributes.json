@@ -1,6 +1,4 @@
 {
     "ReceiveMessageWaitTimeSeconds": "1",
-    "VisibilityTimeout": "20",
-    "RedrivePolicy.deadLetterTargetArn": "$ARN",
-    "RedrivePolicy.maxReceiveCount": "1"
+    "VisibilityTimeout": "20"
 }
