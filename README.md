@@ -4,11 +4,7 @@
 
 **Reference :**<br />
 <pre>
-    https://docs.aws.amazon.com/cli/latest/reference/sqs/set-queue-attributes.html
-
     https://docs.localstack.cloud/user-guide/aws/sqs/
-
-    https://github.com/polovyivan/localstack-sqs-with-dlq-setup/tree/main/docker-compose
 </pre>
 
 &nbsp;
