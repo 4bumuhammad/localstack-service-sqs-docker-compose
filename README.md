@@ -534,16 +534,16 @@ The SQS Query API, provides SQS Queue URLs as endpoints, enabling direct HTTP re
 You will see the following output:
 <pre>
         &lt;?xml version='1.0' encoding='utf-8'?&gt;
-        <SendMessageResponse
-            xmlns="http://queue.amazonaws.com/doc/2012-11-05/">
-            <SendMessageResult>
-                <MD5OfMessageBody>c6be4e95a26409675447367b3e79f663</MD5OfMessageBody>
-                <MessageId>66990f5f-f5ce-48a8-8dba-a9d1ca2b4d7b</MessageId>
-            </SendMessageResult>
-            <ResponseMetadata>
-                <RequestId>c24bcdb0-124f-477b-b142-67c0f9c49937</RequestId>
-            </ResponseMetadata>
-        </SendMessageResponse>% 
+        &lt;SendMessageResponse
+            xmlns="http://queue.amazonaws.com/doc/2012-11-05/"&gt;
+            &lt;SendMessageResult&gt;
+                &lt;MD5OfMessageBody&gt;c6be4e95a26409675447367b3e79f663&lt;/MD5OfMessageBody&gt;
+                &lt;MessageId&gt;66990f5f-f5ce-48a8-8dba-a9d1ca2b4d7b&lt;/MessageId&gt;
+            &lt;/SendMessageResult&gt;
+            &lt;ResponseMetadata&gt;
+                &lt;RequestId&gt;c24bcdb0-124f-477b-b142-67c0f9c49937&lt;/RequestId&gt;
+            &lt;/ResponseMetadata&gt;
+        &lt;/SendMessageResponse&gt;% 
 </pre>
 
 &nbsp;
