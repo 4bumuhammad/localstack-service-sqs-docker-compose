@@ -548,6 +548,29 @@ You will see the following output:
 
 &nbsp;
 
+Adding the Accept: application/json header will make the server return JSON:
+<pre>
+    ❯ curl -H "Accept: application/json" "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue?Action=SendMessage&MessageBody=hello%2Fworld"
+</pre>
+The response will be in JSON format:
+<pre>
+        {
+        "SendMessageResponse": {
+            "SendMessageResult": {
+            "MD5OfMessageBody": "c6be4e95a26409675447367b3e79f663",
+            "MessageId": "7b89d64a-78d9-4efc-92f2-ebd80c8f8cd3"
+            },
+            "ResponseMetadata": {
+            "RequestId": "7399e76d-11eb-4dd5-9e32-747fe1d9a946"
+            }
+        }
+        }
+</pre>
+
+&nbsp;
+
+&nbsp;
+
 &nbsp;
 
 ### &#x1F530; command used outside the container:
