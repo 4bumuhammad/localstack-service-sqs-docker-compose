@@ -764,3 +764,19 @@ An example response is shown below:
 
         #########################################################################
 </pre>
+
+&nbsp;
+
+---
+
+&nbsp;
+
+&nbsp;
+
+<div align="center">
+    <img src="./gambar-petunjuk/syukron.png" alt="syukron" style="display: block; margin: 0 auto;">
+</div> 
+
+&nbsp;
+
+&nbsp;
