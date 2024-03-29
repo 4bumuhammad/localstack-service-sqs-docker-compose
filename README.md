@@ -567,7 +567,7 @@ The response will be in JSON format:
         }
 </pre>
 
-**XML response**<br />
+**&#x1F537; XML response**<br />
 You can directly call the endpoint to obtain the raw AWS XML response.
 <pre>
     ❯ curl "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
@@ -631,7 +631,7 @@ An example response is shown below:
 
 &nbsp;
 
-**JSON response**<br />
+**&#x1F537; JSON response**<br />
 You can include the `Accept: application/json` header in your request if you prefer a JSON response.
 <pre>
     ❯ curl -H "Accept: application/json" \
@@ -699,6 +699,7 @@ An example response is shown below:
         }
         }
 </pre>
+
 &nbsp;
 
 &nbsp;
