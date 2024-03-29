@@ -525,6 +525,9 @@ Listing the message move tasks should yield something like
 
 &nbsp;
 
+### SQS Query API
+The SQS Query API, provides SQS Queue URLs as endpoints, enabling direct HTTP requests to the queues. LocalStack extends support for the Query API.
+
 &nbsp;
 
 &nbsp;
