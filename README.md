@@ -23,9 +23,8 @@ Prepare several json files that will be used later in the implementation of the 
                 "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:my-dead-letter-queue\",\"maxReceiveCount\":\"1000\"}",
                 "MessageRetentionPeriod": "259200"
         }
-
-    
-
+</pre>
+<pre>
     ❯ touch localstack/localstack_home/set-queue-attributes.json
 
     ❯ vim localstack/localstack_home/set-queue-attributes.json
@@ -35,8 +34,7 @@ Prepare several json files that will be used later in the implementation of the 
         }    
 </pre>
 
-
-
+&nbsp;
 
 ### &#x1F530; Docker Compose.
 <pre>
@@ -354,6 +352,7 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                 "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue"
             }                    
 </pre>
+Get the ARN format for dead-letter-queue.
 <pre>
         ❯ DLQ_SQS_ARN=$(awslocal sqs get-queue-attributes --attribute-name QueueArn --queue-url=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/dead-letter-queue\
                 |  sed 's/"QueueArn"/\n"QueueArn"/g' | grep '"QueueArn"' | awk -F '"QueueArn":' '{print $2}' | tr -d '"' | xargs)
@@ -368,6 +367,19 @@ Configure dead-letter-queue to be a DLQ for input-queue:
                     "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
                 }
 </pre>
+Or if you already know the ARN format, you can directly add it to the attribute.
+<pre>
+        ❯ awslocal sqs delete-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
+
+        ❯ awslocal sqs create-queue --queue-name input-queue --attributes \
+        '{ "RedrivePolicy": "{\"deadLetterTargetArn\":\"arn:aws:sqs:ap-southeast-3:000000000000:dead-letter-queue\",\"maxReceiveCount\":\"2\"}",
+        "MessageRetentionPeriod": "259200"}'
+                {
+                    "QueueUrl": "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+                }        
+</pre>
+
+Set-attributes with a file .json
 <pre>
         # or set-attributes with a file .json
         ❯ awslocal sqs delete-queue --queue-url http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue
