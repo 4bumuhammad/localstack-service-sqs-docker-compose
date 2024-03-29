@@ -528,6 +528,24 @@ Listing the message move tasks should yield something like
 ### SQS Query API
 The SQS Query API, provides SQS Queue URLs as endpoints, enabling direct HTTP requests to the queues. LocalStack extends support for the Query API.
 
+<pre>
+    ❯ curl "http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue?Action=SendMessage&MessageBody=hello%2Fworld"
+</pre>
+You will see the following output:
+<pre>
+        <?xml version='1.0' encoding='utf-8'?>
+        <SendMessageResponse
+            xmlns="http://queue.amazonaws.com/doc/2012-11-05/">
+            <SendMessageResult>
+                <MD5OfMessageBody>c6be4e95a26409675447367b3e79f663</MD5OfMessageBody>
+                <MessageId>66990f5f-f5ce-48a8-8dba-a9d1ca2b4d7b</MessageId>
+            </SendMessageResult>
+            <ResponseMetadata>
+                <RequestId>c24bcdb0-124f-477b-b142-67c0f9c49937</RequestId>
+            </ResponseMetadata>
+        </SendMessageResponse>% 
+</pre>
+
 &nbsp;
 
 &nbsp;
