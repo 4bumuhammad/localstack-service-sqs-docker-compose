@@ -533,7 +533,7 @@ The SQS Query API, provides SQS Queue URLs as endpoints, enabling direct HTTP re
 </pre>
 You will see the following output:
 <pre>
-        <?xml version='1.0' encoding='utf-8'?>
+        &lt;?xml version='1.0' encoding='utf-8'?&gt;
         <SendMessageResponse
             xmlns="http://queue.amazonaws.com/doc/2012-11-05/">
             <SendMessageResult>
