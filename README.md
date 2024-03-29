@@ -567,6 +567,66 @@ The response will be in JSON format:
         }
 </pre>
 
+<pre>
+curl "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+</pre>
+<pre>
+        &lt;?xml version='1.0' encoding='utf-8'?&gt;
+        &lt;ReceiveMessageResponse
+            xmlns="http://queue.amazonaws.com/doc/2012-11-05/"&gt;
+            &lt;ReceiveMessageResult&gt;
+                &lt;Message&gt;
+                    &lt;MessageId&gt;66990f5f-f5ce-48a8-8dba-a9d1ca2b4d7b&lt;/MessageId&gt;
+                    &lt;MD5OfBody&gt;c6be4e95a26409675447367b3e79f663&lt;/MD5OfBody&gt;
+                    &lt;Body&gt;hello/world&lt;/Body&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;SenderId&lt;/Name&gt;
+                        &lt;Value&gt;000000000000&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;SentTimestamp&lt;/Name&gt;
+                        &lt;Value&gt;1711673963108&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;ApproximateReceiveCount&lt;/Name&gt;
+                        &lt;Value&gt;0&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;ApproximateFirstReceiveTimestamp&lt;/Name&gt;
+                        &lt;Value&gt;0&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;ReceiptHandle&gt;SQS/BACKDOOR/ACCESS&lt;/ReceiptHandle&gt;
+                &lt;/Message&gt;
+                &lt;Message&gt;
+                    &lt;MessageId&gt;7b89d64a-78d9-4efc-92f2-ebd80c8f8cd3&lt;/MessageId&gt;
+                    &lt;MD5OfBody&gt;c6be4e95a26409675447367b3e79f663&lt;/MD5OfBody&gt;
+                    &lt;Body&gt;hello/world&lt;/Body&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;SenderId&lt;/Name&gt;
+                        &lt;Value&gt;000000000000&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;SentTimestamp&lt;/Name&gt;
+                        &lt;Value&gt;1711674415110&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;ApproximateReceiveCount&lt;/Name&gt;
+                        &lt;Value&gt;0&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;Attribute&gt;
+                        &lt;Name&gt;ApproximateFirstReceiveTimestamp&lt;/Name&gt;
+                        &lt;Value&gt;0&lt;/Value&gt;
+                    &lt;/Attribute&gt;
+                    &lt;ReceiptHandle&gt;SQS/BACKDOOR/ACCESS&lt;/ReceiptHandle&gt;
+                &lt;/Message&gt;
+            &lt;/ReceiveMessageResult&gt;
+            &lt;ResponseMetadata&gt;
+                &lt;RequestId&gt;7c708516-1ad9-4771-bcc3-5cea74ae7f24&lt;/RequestId&gt;
+            &lt;/ResponseMetadata&gt;
+        &lt;/ReceiveMessageResponse&gt;
+</pre>
+
+
 &nbsp;
 
 &nbsp;
