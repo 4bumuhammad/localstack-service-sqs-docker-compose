@@ -570,8 +570,9 @@ The response will be in JSON format:
 **XML response**<br />
 You can directly call the endpoint to obtain the raw AWS XML response.
 <pre>
-curl "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+    ❯ curl "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
 </pre>
+An example response is shown below:
 <pre>
         &lt;?xml version='1.0' encoding='utf-8'?&gt;
         &lt;ReceiveMessageResponse
@@ -628,7 +629,76 @@ curl "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://s
         &lt;/ReceiveMessageResponse&gt;
 </pre>
 
+&nbsp;
 
+**JSON response**<br />
+You can include the `Accept: application/json` header in your request if you prefer a JSON response.
+<pre>
+    ❯ curl -H "Accept: application/json" \
+        "http://localhost.localstack.cloud:4566/_aws/sqs/messages?QueueUrl=http://sqs.ap-southeast-3.localhost.localstack.cloud:4566/000000000000/input-queue"
+</pre>
+An example response is shown below:
+<pre>
+        {
+        "ReceiveMessageResponse": {
+            "ReceiveMessageResult": {
+            "Message": [
+                {
+                "MessageId": "66990f5f-f5ce-48a8-8dba-a9d1ca2b4d7b",
+                "MD5OfBody": "c6be4e95a26409675447367b3e79f663",
+                "Body": "hello/world",
+                "Attribute": [
+                    {
+                    "Name": "SenderId",
+                    "Value": "000000000000"
+                    },
+                    {
+                    "Name": "SentTimestamp",
+                    "Value": "1711673963108"
+                    },
+                    {
+                    "Name": "ApproximateReceiveCount",
+                    "Value": "0"
+                    },
+                    {
+                    "Name": "ApproximateFirstReceiveTimestamp",
+                    "Value": "0"
+                    }
+                ],
+                "ReceiptHandle": "SQS/BACKDOOR/ACCESS"
+                },
+                {
+                "MessageId": "7b89d64a-78d9-4efc-92f2-ebd80c8f8cd3",
+                "MD5OfBody": "c6be4e95a26409675447367b3e79f663",
+                "Body": "hello/world",
+                "Attribute": [
+                    {
+                    "Name": "SenderId",
+                    "Value": "000000000000"
+                    },
+                    {
+                    "Name": "SentTimestamp",
+                    "Value": "1711674415110"
+                    },
+                    {
+                    "Name": "ApproximateReceiveCount",
+                    "Value": "0"
+                    },
+                    {
+                    "Name": "ApproximateFirstReceiveTimestamp",
+                    "Value": "0"
+                    }
+                ],
+                "ReceiptHandle": "SQS/BACKDOOR/ACCESS"
+                }
+            ]
+            },
+            "ResponseMetadata": {
+            "RequestId": "cdb7b0a6-dbd6-4480-a786-6d04f85df775"
+            }
+        }
+        }
+</pre>
 &nbsp;
 
 &nbsp;
